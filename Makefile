@@ -6,7 +6,7 @@
 #    By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/07 14:47:44 by snechaev          #+#    #+#              #
-#    Updated: 2019/08/01 12:14:27 by snechaev         ###   ########.fr        #
+#    Updated: 2019/08/08 15:54:03 by snechaev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = ft_ls
 
 OBJS = main.o\
        		read.o\
-			flags.o\
+			utilits.o\
 
 CFLAGS = -Wall -Wextra -Werror -g
 

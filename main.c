@@ -6,24 +6,73 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/01 13:44:23 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/08 16:45:37 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+static void		check_add_flag(char *curr, char *flags)
+{
+	int			i;
+
+	i = 1;
+	while (curr[i])
+	{
+		if (!ft_strrchr(FLAGS, curr[i]))
+		{
+			ft_error(curr, 2);
+			return (exit(1));
+		}
+		else if (!ft_strrchr(flags, curr[i]))
+			ft_strncat(flags, &(curr[i]), 1);
+		i++;
+	}
+	return ;
+}
+
+static t_path	*parse_args(char **argv, int argc, char *flags)
+{
+	int			i;
+	t_path		*path;
+
+	i = 0;
+	path = NULL;
+	while (i < argc)
+	{
+		i++;
+		if (!ft_strcmp(argv[i], "--"))
+			i += 1;
+		else if (argv[i][0] == '-')
+		{
+			check_add_flag(argv[i], flags);
+			continue ;
+		}
+		break ;
+	}
+	while (i <= argc)
+	{
+		path = add_to_path(path, argv[i - 1]);
+		i++;
+	}
+	return (path);
+}
 
 int				main(int argc, char **argv)
 {
+	char 		*flags;
+	t_path		*path;
 
-	if (argc == 1)
-	{
-		reading(argv[0]);
-	}
+	flags = ft_strnew((int)ft_strlen(FLAGS));
+
+	if (!flags)
+		return (3);
 	else
 	{
-		reading(argv[1]);
-		init_flags();
+		path = parse_args(argv, argc, flags);
+		if (!path)
+			path = add_to_path(path, ".");
+		print_path(path);
 	}
 
 	return (0);

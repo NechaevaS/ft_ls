@@ -6,85 +6,70 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 15:03:42 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/01 14:31:37 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/08 16:45:14 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void ft_error(const char *s, int n)
+void	ft_error(const char *s, int n)
 {
 	write(1, "ft_ls: ", 7);
 	ft_putstr(s);
 	write(1, ": ", 2);
 	if (n == 1)
 		ft_putstr("No such file or directory\n");
-}
-
-void print_count_lst(t_list *l)
-{
-	int i = 0;
-	while (l)
+	if (n == 2)
 	{
-		printf("%s\n", (char *)l->content->d_name);
-		printf("elem lst = %d ", i);
-		l = l->next;
-		i++;
+		ft_putstr("illegal option --");
+		ft_putstr(s);
+		write(1, "\n", 1);
+		ft_putstr("usage: ft_ls [laARrtT] [file ...]\n");
 	}
-	printf("\n");
 }
 
-t_list *to_list(t_list *list, struct dirent *f, int count)
+int			check_type(char *curr_path)
 {
-	t_list *head;
-	t_list *current;
-	t_list *elem;
+	DIR		*dir;
+	int		res;
 
-	if (count == 0)
-	{
-		head = ft_lstnew(f, sizeof(struct dirent));
-	}
-	else
-	{
-		elem = ft_lstnew(f, sizeof(struct dirent));
-		current = list;
-		while (current->next != NULL)
-		{
-			current = current->next;
-		}
-		current->next = elem;
-		head = list;
-	}
-	return (head);
-}
-
-int is_less(void *a, void *b)
-{
-	if (ft_strcmp((char *)a, (char *)b) < 0)
-		return (1);
-	else
-		return (0);
-}
-
-void reading(const char *str)
-{
-	DIR *dir;
-	struct dirent *f;
-	t_list *list;
-	int count;
-
-	dir = opendir(str);
-	f = NULL;
+	res = 0;
+	dir = opendir(curr_path);
 	if (!dir)
-		ft_error(str, 1);
-	count = 0;
-	list = NULL;
-	while ((f = readdir(dir)) != NULL)
 	{
-		printf("%s\n", f->d_name);
-		list = to_list(list, f, count);
-		count++;
+		if (!ft_strcmp("Not a directory", strerror(errno)))
+			res = 0;
+		else if (!closedir(dir))
+			res = 1;
+		else
+		{
+			res = -1;
+			ft_error(curr_path, 1);
+		}
 	}
-	list = ft_sort_list(list, is_less);
-	print_count_lst(list);
+	return (res);
 }
+
+t_path		*add_to_path(t_path *path, char *curr)
+{
+	t_path	*current;
+	t_path	*elem;
+
+	if (!(elem = (t_path *)malloc(sizeof(t_path))))
+		return (NULL);
+
+	elem->name = ft_strdup(curr);
+	elem->next = NULL;
+	//elem->stat = (struct stat *)malloc(sizeof(struct stat));
+	elem->type = check_type(curr);
+	if (!path)
+		return (elem);
+	current = path;
+	while (current->next)
+	{
+		current = current->next;
+	}
+	current->next = elem;
+	return (path);
+}
+
