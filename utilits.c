@@ -1,19 +1,6 @@
 #include "ft_ls.h"
 
-void print_path(t_path *path)
-{
-	t_path *tmp;
-
-	tmp = path;
-	while (tmp)
-	{
-		printf("%s  ", tmp->name);
-		tmp = tmp->next;
-	}
-	printf("\n");
-}
-
-void	ft_error(const char *s, int n)
+void ft_error(const char *s, int n)
 {
 	write(1, "ft_ls: ", 7);
 	ft_putstr(s);

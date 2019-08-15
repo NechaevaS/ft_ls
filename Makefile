@@ -16,6 +16,7 @@ OBJS = main.o\
        		read.o\
 			utilits.o\
 			sort.o\
+			print.c\
 			libft/libft.a
 
 CFLAGS = -Wall -Wextra -Werror -g

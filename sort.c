@@ -12,10 +12,8 @@
 
 #include "ft_ls.h"
 
-void swap_elem(void *v1, void *v2)
+void swap_elem(t_path *p1, t_path *p2)
 {
-	t_path *p1 = (t_path *)v1;
-	t_path *p2 = (t_path *)v2;
 	int     t_type;
 	char    *t_name;
 	struct stat *t_stat;
@@ -31,15 +29,15 @@ void swap_elem(void *v1, void *v2)
 	p2->stat = t_stat;
 }
 
-int is_less_name(void *s1, void *s2, char c)
+int is_less_name(t_path *s1, t_path *s2, char c)
 {
 	char *c1;
 	char *c2;
 
 	if (!c)
 		return (-1);
-	c1 = ft_strdup((char *)s1);
-	c2 = ft_strdup((char *)s2);
+	c1 = ft_strdup(s1->name);
+	c2 = ft_strdup(s2->name);
 	c1[0] = ft_tolower(c1[0]);
 	c2[0] = ft_tolower(c2[0]);
 	if (ft_strcmp(c1, c2) <= 0)
@@ -49,46 +47,37 @@ int is_less_name(void *s1, void *s2, char c)
 	return (0);
 }
 
-int is_less_sise(void *s1, void *s2, char c)
+int is_less_sise(t_path *s1, t_path *s2, char c)
 {
-	t_path *c1;
-	t_path *c2;
 
 	if (!c)
 		return (-1);
-	c1 = (t_path *)s1;
-	c2 = (t_path *)s2;
-		if (c1->stat->st_size <= c2->stat->st_size)
-			return(1);
+	if (s1->stat->st_size <= s2->stat->st_size)
+		return(1);
 	return (0);
 }
 
-int is_less_time(void *s1, void *s2, char c)
+int is_less_time(t_path *s1, t_path *s2, char c)
 {
-	t_path *c1;
-	t_path *c2;
-
-	c1 = (t_path *)s1;
-	c2 = (t_path *)s2;
 	if (c == 'u')
 	{
-		if (c1->stat->st_atime <= c2->stat->st_atime)
+		if (s1->stat->st_atime >= s2->stat->st_atime)
 		return(1);
 	}
-	else if (c == 'c')
+	if (c == 'c')
 	{
-		if (c1->stat->st_ctime <= c2->stat->st_ctime)
+		if (s1->stat->st_ctime >= s2->stat->st_ctime)
 		return(1);
 	}
-	else if (c == 'm')
+	if (c == 'm')
 	{
-		if (c1->stat->st_mtime <= c2->stat->st_mtime)
+		if (s1->stat->st_mtime >= s2->stat->st_mtime)
 		return(1);
 	}
 	return (0);
 }
 
-t_path *sorting(t_path *path, int (*cmp)(void *, void *, char), int r, char c)
+t_path *sorting(t_path *path, int (*cmp)(t_path *, t_path *, char), int r, char c)
 {
 	t_path *head;
 	t_path *current;
@@ -99,11 +88,10 @@ t_path *sorting(t_path *path, int (*cmp)(void *, void *, char), int r, char c)
 		current = path->next;
 		while (current)
 		{
-			if ((cmp((void *)(path->name), (void *)(current->name), c) == 0
-				&& !r) || (cmp((void *)(path->name), (void *)(current->name), c) == 1
-				&& r))
+			if ((cmp(path, current, c) == 0 && !r) ||
+				(cmp(path, current, c) == 1 && r))
 			{
-				swap_elem((void *)path, (void *)current);
+				swap_elem(path, current);
 			}
 			current = current->next;
 		}
@@ -120,21 +108,20 @@ t_path          *sort_path(t_path *path, char *flags)
 	r = 0;
 	if (ft_strrchr(flags, 'r'))
 		r = 1;
-	else if (ft_strrchr(flags, 'f'))
+	if (ft_strrchr(flags, 'f'))
 		res = path;
-	else if (ft_strrchr(flags, 'S'))
+	else if (ft_strrchr(flags, 'S') != NULL)
 	{
 		res = sorting(path, is_less_sise, r, 'S');
-			print_path(res);
 	}
-	else if (ft_strrchr(flags, 't'))
+	else if (ft_strrchr(flags, 't') != NULL)
 	{
-		if (ft_strrchr(flags, 'c'))
-			res = sorting(path, is_less_name, r, 'c');
+		if (ft_strrchr(flags, 'c') != NULL)
+			res = sorting(path, is_less_time, r, 'c');
 		else if (ft_strrchr(flags, 'u'))
-			res = sorting(path, is_less_name, r, 'u');
+			res = sorting(path, is_less_time, r, 'u');
 		else
-			res = sorting(path, is_less_name, r, 'm');
+			res = sorting(path, is_less_time, r, 'm');
 	}
 	else
 		res = sorting(path, is_less_name, r, 'z');

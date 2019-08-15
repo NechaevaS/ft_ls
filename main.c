@@ -73,7 +73,8 @@ int				main(int argc, char **argv)
 			path = add_to_path(path, ".");
 	//	print_path(path);
 		path = sort_path(path, flags);
-		print_path(path);
+		//print_path(path);
+		printing(path, flags);
 	}
 	return (0);
 }

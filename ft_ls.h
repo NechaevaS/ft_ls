@@ -14,7 +14,8 @@
 # define FT_LS_H
 # include <stdlib.h>
 # include <sys/xattr.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <dirent.h>
@@ -52,9 +53,8 @@ void			ft_error(const char *s, int n);
 t_path			*add_to_path(t_path *path, char *curr);
 // int				is_less(void *a, void *b);
 // void 			reading(const char *str);
-void			print_path(t_path *path);
-t_path			*sorting(t_path *path, int (*cmp)(void *, void *, char), int r, char c);
-int				is_less_name(void *s1, void *s2, char c);
+void			print_path_name(t_path *path);
 t_path          *sort_path(t_path *path, char *flags);
+void			printing(t_path *path, char *flags);
 
 #endif
