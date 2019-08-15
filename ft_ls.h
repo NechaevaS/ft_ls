@@ -21,7 +21,7 @@
 # include <errno.h>
 # include "libft/libft.h"
 
-# define FLAGS		("laARrtT")
+# define FLAGS		("laASRrtucf")
 
 typedef struct
 {
@@ -34,16 +34,27 @@ typedef struct
 
 typedef struct 		s_path
 {
-	// struct stat		*stat;
+	struct stat		*stat;
 	int				type;
 	char			*name;
 	struct s_path	*next;
 }					t_path;
 
+typedef struct 		s_file
+{
+	struct stat		*stat;
+	int				type;
+	char			*name;
+	struct s_file	*next;
+}					t_file;
 
 void			ft_error(const char *s, int n);
 t_path			*add_to_path(t_path *path, char *curr);
 // int				is_less(void *a, void *b);
 // void 			reading(const char *str);
 void			print_path(t_path *path);
+t_path			*sorting(t_path *path, int (*cmp)(void *, void *, char), int r, char c);
+int				is_less_name(void *s1, void *s2, char c);
+t_path          *sort_path(t_path *path, char *flags);
+
 #endif

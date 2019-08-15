@@ -15,13 +15,15 @@ NAME = ft_ls
 OBJS = main.o\
        		read.o\
 			utilits.o\
+			sort.o\
+			libft/libft.a
 
 CFLAGS = -Wall -Wextra -Werror -g
 
 all : $(NAME)
 
 $(NAME) : $(OBJS) lib
-	gcc $(CFLAGS) libft/libft.a $(OBJS) -o $(NAME)
+	gcc -o $(NAME) $(CFLAGS) $(OBJS)
 
 $(OBJS) : ft_ls.h
 

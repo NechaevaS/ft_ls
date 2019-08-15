@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-static void		check_add_flag(char *curr, char *flags)
+void		check_add_flag(char *curr, char *flags)
 {
 	int			i;
 
@@ -31,7 +31,7 @@ static void		check_add_flag(char *curr, char *flags)
 	return ;
 }
 
-static t_path	*parse_args(char **argv, int argc, char *flags)
+t_path	*parse_args(char **argv, int argc, char *flags)
 {
 	int			i;
 	t_path		*path;
@@ -50,9 +50,9 @@ static t_path	*parse_args(char **argv, int argc, char *flags)
 		}
 		break ;
 	}
-	while (i <= argc)
+	while (i < argc)
 	{
-		path = add_to_path(path, argv[i - 1]);
+		path = add_to_path(path, argv[i]);
 		i++;
 	}
 	return (path);
@@ -64,7 +64,6 @@ int				main(int argc, char **argv)
 	t_path		*path;
 
 	flags = ft_strnew((int)ft_strlen(FLAGS));
-
 	if (!flags)
 		return (3);
 	else
@@ -72,8 +71,9 @@ int				main(int argc, char **argv)
 		path = parse_args(argv, argc, flags);
 		if (!path)
 			path = add_to_path(path, ".");
+	//	print_path(path);
+		path = sort_path(path, flags);
 		print_path(path);
 	}
-
 	return (0);
 }

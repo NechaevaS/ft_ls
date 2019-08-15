@@ -12,21 +12,6 @@
 
 #include "ft_ls.h"
 
-void	ft_error(const char *s, int n)
-{
-	write(1, "ft_ls: ", 7);
-	ft_putstr(s);
-	write(1, ": ", 2);
-	if (n == 1)
-		ft_putstr("No such file or directory\n");
-	if (n == 2)
-	{
-		ft_putstr("illegal option --");
-		ft_putstr(s);
-		write(1, "\n", 1);
-		ft_putstr("usage: ft_ls [laARrtT] [file ...]\n");
-	}
-}
 
 int			check_type(char *curr_path)
 {
@@ -60,7 +45,8 @@ t_path		*add_to_path(t_path *path, char *curr)
 
 	elem->name = ft_strdup(curr);
 	elem->next = NULL;
-	//elem->stat = (struct stat *)malloc(sizeof(struct stat));
+	elem->stat = (struct stat *)malloc(sizeof(struct stat));
+	stat(elem->name, elem->stat);
 	elem->type = check_type(curr);
 	if (!path)
 		return (elem);
@@ -72,4 +58,39 @@ t_path		*add_to_path(t_path *path, char *curr)
 	current->next = elem;
 	return (path);
 }
+// void reading(t_path path, char *flags)
+// {
+// 	DIR *dir;
+// 	struct dirent *f;
+// 	t_file *file;
+// 	int count;
+// 	if (!(file = (t_file *)malloc(sizeof(t_file))))
+// 		return (NULL);
 
+// 	dir = opendir(str);
+// 	f = NULL;
+// 	if (!dir)
+// 		ft_error(str, 1);
+// 	count = 0;
+// 	list = NULL;
+// 	while ((f = readdir(dir)) != NULL)
+// 	elem->name = ft_strdup(curr);
+// 	elem->next = NULL;
+// 	//elem->stat = (struct stat *)malloc(sizeof(struct stat));
+// 	elem->type = check_type(curr);
+// 	if (!path)
+// 		return (elem);
+// 	current = path;
+// 	while (current->next)
+// 	{
+// 		printf("%s\n", f->d_name);
+// 		list = to_list(list, f, count);
+// 		count++;
+// 		current = current->next;
+// 	}
+// 	list = ft_sort_list(list, is_less);
+// 	print_count_lst(list);
+// } 
+// 	current->next = elem;
+// 	return (path);
+// }
