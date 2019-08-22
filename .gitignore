@@ -1,4 +1,6 @@
-
+ft_ls
+.vscode
+._*
 *.o
 *.ko
 *.obj
