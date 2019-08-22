@@ -6,33 +6,16 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/08 16:45:37 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/21 17:23:51 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void swap_elem(t_path *p1, t_path *p2)
+int		is_less_name(t_path *s1, t_path *s2, char c)
 {
-	int     t_type;
-	char    *t_name;
-	struct stat *t_stat;
-
-	t_type = p1->type;
-	p1->type = p2->type;
-	p2->type = t_type;
-	t_name = p1->name;
-	p1->name = p2->name;
-	p2->name = t_name;
-	t_stat = p1->stat;
-	p1->stat = p2->stat;
-	p2->stat = t_stat;
-}
-
-int is_less_name(t_path *s1, t_path *s2, char c)
-{
-	char *c1;
-	char *c2;
+	char	*c1;
+	char	*c2;
 
 	if (!c)
 		return (-1);
@@ -40,6 +23,10 @@ int is_less_name(t_path *s1, t_path *s2, char c)
 	c2 = ft_strdup(s2->name);
 	c1[0] = ft_tolower(c1[0]);
 	c2[0] = ft_tolower(c2[0]);
+	if (ft_strcmp(c1, "makefile") == 0)
+		return (1);
+	if (ft_strcmp(c2, "makefile") == 0)
+		return (0);
 	if (ft_strcmp(c1, c2) <= 0)
 		return (1);
 	free(c1);
@@ -47,60 +34,60 @@ int is_less_name(t_path *s1, t_path *s2, char c)
 	return (0);
 }
 
-int is_less_sise(t_path *s1, t_path *s2, char c)
+int		is_less_sise(t_path *s1, t_path *s2, char c)
 {
 
 	if (!c)
 		return (-1);
 	if (s1->stat->st_size <= s2->stat->st_size)
-		return(1);
+		return (1);
 	return (0);
 }
 
-int is_less_time(t_path *s1, t_path *s2, char c)
+int		is_less_time(t_path *s1, t_path *s2, char c)
 {
 	if (c == 'u')
 	{
 		if (s1->stat->st_atime >= s2->stat->st_atime)
-		return(1);
+			return (1);
 	}
 	if (c == 'c')
 	{
 		if (s1->stat->st_ctime >= s2->stat->st_ctime)
-		return(1);
+			return (1);
 	}
 	if (c == 'm')
 	{
 		if (s1->stat->st_mtime >= s2->stat->st_mtime)
-		return(1);
+			return (1);
 	}
 	return (0);
 }
 
-t_path *sorting(t_path *path, int (*cmp)(t_path *, t_path *, char), int r, char c)
+t_path	*sort(t_path *p, int (*cmp)(t_path *, t_path *, char), int r, char s)
 {
-	t_path *head;
-	t_path *current;
+	t_path	*head;
+	t_path	*current;
 
-	head = path;
-	while (path)
+	head = p;
+	while (p)
 	{
-		current = path->next;
+		current = p->next;
 		while (current)
 		{
-			if ((cmp(path, current, c) == 0 && !r) ||
-				(cmp(path, current, c) == 1 && r))
+			if ((cmp(p, current, s) == 0 && !r) ||
+				(cmp(p, current, s) == 1 && r))
 			{
-				swap_elem(path, current);
+				swap_elem(p, current);
 			}
 			current = current->next;
 		}
-		path = path->next;
+		p = p->next;
 	}
 	return (head);
 }
 
-t_path          *sort_path(t_path *path, char *flags)
+t_path	*sort_path(t_path *path, char *flags)
 {
 	t_path		*res;
 	int			r;
@@ -112,18 +99,18 @@ t_path          *sort_path(t_path *path, char *flags)
 		res = path;
 	else if (ft_strrchr(flags, 'S') != NULL)
 	{
-		res = sorting(path, is_less_sise, r, 'S');
+		res = sort(path, is_less_sise, r, 'S');
 	}
 	else if (ft_strrchr(flags, 't') != NULL)
 	{
 		if (ft_strrchr(flags, 'c') != NULL)
-			res = sorting(path, is_less_time, r, 'c');
+			res = sort(path, is_less_time, r, 'c');
 		else if (ft_strrchr(flags, 'u'))
-			res = sorting(path, is_less_time, r, 'u');
+			res = sort(path, is_less_time, r, 'u');
 		else
-			res = sorting(path, is_less_time, r, 'm');
+			res = sort(path, is_less_time, r, 'm');
 	}
 	else
-		res = sorting(path, is_less_name, r, 'z');
+		res = sort(path, is_less_name, r, 'z');
 	return (res);
 }

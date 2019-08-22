@@ -6,15 +6,15 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/08 16:45:37 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/21 17:24:27 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void		check_add_flag(char *curr, char *flags)
+void	check_add_flag(char *curr, char *flags)
 {
-	int			i;
+	int		i;
 
 	i = 1;
 	while (curr[i])
@@ -33,8 +33,8 @@ void		check_add_flag(char *curr, char *flags)
 
 t_path	*parse_args(char **argv, int argc, char *flags)
 {
-	int			i;
-	t_path		*path;
+	int		i;
+	t_path	*path;
 
 	i = 0;
 	path = NULL;
@@ -58,10 +58,20 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 	return (path);
 }
 
-int				main(int argc, char **argv)
+void	print_path(t_path *p)
 {
-	char 		*flags;
-	t_path		*path;
+	while (p)
+	{
+		printf("%s ", p->name);
+		p = p->next;
+	}
+	ft_putstr("\n");
+}
+
+int		main(int argc, char **argv)
+{
+	char	*flags;
+	t_path	*path;
 
 	flags = ft_strnew((int)ft_strlen(FLAGS));
 	if (!flags)
@@ -73,7 +83,7 @@ int				main(int argc, char **argv)
 			path = add_to_path(path, ".");
 	//	print_path(path);
 		path = sort_path(path, flags);
-		//print_path(path);
+	//	print_path(path);
 		printing(path, flags);
 	}
 	return (0);
