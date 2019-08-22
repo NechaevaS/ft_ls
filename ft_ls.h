@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/21 16:23:50 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/21 17:38:41 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@
 
 # define FLAGS		("laASRrtucf")
 # define SIX_MONTHS	(15778800)
-typedef struct
-{
-	int				l;
-	int				a;
-	int				R;
-	int				r;
-	int				t;
-}					t_flags;
 
 typedef struct 		s_path
 {
