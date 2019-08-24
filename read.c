@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 15:03:42 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/21 13:19:32 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/23 19:25:34 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,29 @@ t_path	*add_to_path(t_path *path, char *curr)
 	return (path);
 }
 
+t_path	*create_new_path(t_path *path, char *flags)
+{
+	DIR				*dir;
+	struct dirent	*f;
+	t_path			*new_path;
 
+	new_path = NULL;
+	dir = opendir(path->name);
+	if (!dir)
+	{
+		ft_error(path->name, 1);
+		return (NULL);
+	}
+	while ((f = readdir(dir)) != NULL)
+	{
+		if (f->d_name[0] == '.' && !ft_strrchr(flags, 'f')
+			&& !ft_strrchr(flags, 'a') && !ft_strrchr(flags, 'A'))
+			continue;
+		if ((!ft_strcmp(".", f->d_name) || !ft_strcmp("..", f->d_name))
+			&& !ft_strrchr(flags, 'A'))
+			continue;
+		new_path = add_to_path(new_path, f->d_name);
+	}
+	new_path = sort_path(new_path, flags);
+	return (new_path);
+}

@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/21 17:25:22 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/23 13:40:29 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,23 @@ void	print_time(t_path *path)
 	t = ctime(&path->stat->st_mtime);
 	arr = ft_strsplit(t, ' ');
 	arr[3][5] = '\0';
+	arr[4][4] = '\0';
 	ft_putstr(arr[1]);
 	if (ft_strlen(arr[2]) > 1)
 		ft_putchar(' ');
 	else
 		ft_putstr("  ");
 	ft_putstr(arr[2]);
-	ft_putchar(' ');
-	if (difftime(path->stat->st_mtime, t_now) <= SIX_MONTHS)
+	if (difftime(t_now, path->stat->st_mtime) <= SIX_MONTHS)
+	{
+		ft_putchar(' ');
 		ft_putstr(arr[3]);
+	}
 	else
+	{
+		ft_putstr("  ");
 		ft_putstr(arr[4]);
+	}
 }
 
 void	print_size(t_path *path)
@@ -88,7 +94,7 @@ void	print_size(t_path *path)
 	ft_putstr(s);
 }
 
-void	printing(t_path *path, char *flags)
+void	printing_l(t_path *path, char *flags)
 {
 	t_path	*tmp;
 

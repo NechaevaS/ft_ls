@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/21 17:38:41 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/23 18:59:54 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ typedef struct 		s_path
 
 void				ft_error(const char *s, int n);
 t_path				*add_to_path(t_path *path, char *curr);
-// int				is_less(void *a, void *b);
-// void 			reading(const char *str);
 void				print_path_name(t_path *path);
 t_path				*sort_path(t_path *path, char *flags);
-void				printing(t_path *path, char *flags);
+void				printing_l(t_path *path, char *flags);
 void				swap_elem(t_path *p1, t_path *p2);
+void				ft_ls(t_path *path, char *flags);
+void				print_path(t_path *p);
+t_path 				*create_new_path(t_path *path, char *flags);
 
 #endif

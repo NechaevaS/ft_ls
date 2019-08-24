@@ -6,7 +6,7 @@
 #    By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/07 14:47:44 by snechaev          #+#    #+#              #
-#    Updated: 2019/08/21 12:10:51 by snechaev         ###   ########.fr        #
+#    Updated: 2019/08/23 13:41:15 by snechaev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ OBJS = main.o\
 			sort.o\
 			print.c\
 			sort_utils.o\
+			ft_ls.o\
 			libft/libft.a
 
 CFLAGS = -Wall -Wextra -Werror -g

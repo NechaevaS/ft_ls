@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/21 17:24:27 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/23 19:00:30 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 
 	i = 0;
 	path = NULL;
-	while (i < argc)
+	while (i < argc - 1 && argc != 1)
 	{
 		i++;
 		if (!ft_strcmp(argv[i], "--"))
@@ -50,7 +50,8 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 		}
 		break ;
 	}
-	while (i < argc)
+	i++;
+	while (i < argc && argc != 1)
 	{
 		path = add_to_path(path, argv[i]);
 		i++;
@@ -62,7 +63,20 @@ void	print_path(t_path *p)
 {
 	while (p)
 	{
-		printf("%s ", p->name);
+		// if (p->name[0] == '.' && !ft_strrchr(flags, 'f')
+		// 	&& !ft_strrchr(flags, 'a') && !ft_strrchr(flags, 'A'))
+		// {
+		// 	p = p->next;
+		// 	continue;
+		// }
+		// if ((!ft_strcmp(".", p->name) || !ft_strcmp("..", p->name))
+		// 	&& !ft_strrchr(flags, 'A'))
+		// {
+		// 	p = p->next;
+		// 	continue;
+		// }
+		ft_putstr(p->name);
+		ft_putstr("\n");
 		p = p->next;
 	}
 	ft_putstr("\n");
@@ -82,9 +96,10 @@ int		main(int argc, char **argv)
 		if (!path)
 			path = add_to_path(path, ".");
 	//	print_path(path);
-		path = sort_path(path, flags);
+	//	path = sort_path(path, flags);
 	//	print_path(path);
-		printing(path, flags);
+	//	printing(path, flags);
+		ft_ls(path, flags);
 	}
 	return (0);
 }
