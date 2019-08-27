@@ -15,3 +15,16 @@ void ft_error(const char *s, int n)
 		ft_putstr("usage: ft_ls [laARrtT] [file ...]\n");
 	}
 }
+
+int	count_blocks(t_path *p)
+{
+	int n_bl;
+
+	n_bl = 0;
+	while (p)
+	{
+		n_bl = n_bl + (p->stat->st_blocks);
+		p = p->next;
+	}
+	return (n_bl);
+}

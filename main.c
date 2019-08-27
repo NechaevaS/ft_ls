@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/23 19:00:30 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/26 18:27:27 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,36 +50,23 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 		}
 		break ;
 	}
-	i++;
+	//i++;
 	while (i < argc && argc != 1)
 	{
 		path = add_to_path(path, argv[i]);
 		i++;
 	}
+
 	return (path);
 }
 
-void	print_path(t_path *p)
+void	print_path(t_path *p, char *flags)
 {
 	while (p)
 	{
-		// if (p->name[0] == '.' && !ft_strrchr(flags, 'f')
-		// 	&& !ft_strrchr(flags, 'a') && !ft_strrchr(flags, 'A'))
-		// {
-		// 	p = p->next;
-		// 	continue;
-		// }
-		// if ((!ft_strcmp(".", p->name) || !ft_strcmp("..", p->name))
-		// 	&& !ft_strrchr(flags, 'A'))
-		// {
-		// 	p = p->next;
-		// 	continue;
-		// }
-		ft_putstr(p->name);
-		ft_putstr("\n");
+		printing(p, flags);
 		p = p->next;
 	}
-	ft_putstr("\n");
 }
 
 int		main(int argc, char **argv)
@@ -95,8 +82,8 @@ int		main(int argc, char **argv)
 		path = parse_args(argv, argc, flags);
 		if (!path)
 			path = add_to_path(path, ".");
-	//	print_path(path);
-	//	path = sort_path(path, flags);
+		// print_path(path);
+		path = sort_path(path, flags);
 	//	print_path(path);
 	//	printing(path, flags);
 		ft_ls(path, flags);

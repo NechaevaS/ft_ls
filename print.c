@@ -6,13 +6,13 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/23 13:40:29 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/26 18:37:06 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_type(t_path *path)
+void print_type(t_path *path)
 {
 	if (S_ISDIR(path->stat->st_mode))
 		ft_putchar('d');
@@ -30,7 +30,7 @@ void	print_type(t_path *path)
 		ft_putchar('s');
 }
 
-void	print_permission(t_path path)
+void print_permission(t_path path)
 {
 	char res[10];
 
@@ -57,11 +57,11 @@ void	print_permission(t_path path)
 	ft_putstr(res);
 }
 
-void	print_time(t_path *path)
+void print_time(t_path *path)
 {
-	char	*t;
-	char	**arr;
-	time_t	t_now;
+	char *t;
+	char **arr;
+	time_t t_now;
 
 	t_now = time(NULL);
 	t = ctime(&path->stat->st_mtime);
@@ -86,39 +86,64 @@ void	print_time(t_path *path)
 	}
 }
 
-void	print_size(t_path *path)
+void print_size(t_path *path)
 {
 	char *s;
+	int len;
+	int i;
 
 	s = ft_itoa(path->stat->st_size);
-	ft_putstr(s);
+	len = ft_strlen(s);
+	i = 4 - len;
+	if (len == 4)
+	{
+		ft_putstr(s);
+		return;
+	}
+	while (i >= 0)
+	{
+		if ((i + len) == len)
+			ft_putstr(s);
+		else
+			ft_putstr(" ");
+		i--;
+	}
 }
 
-void	printing_l(t_path *path, char *flags)
+void printing_l(t_path *path, char *flags)
 {
-	t_path	*tmp;
 
-	tmp = path;
 	if (ft_strrchr(flags, 'l'))
 	{
-		while (tmp)
-		{
-			print_type(tmp);
-			print_permission(*tmp);
-			ft_putstr("  ");
-			ft_putchar((tmp->stat->st_nlink) + '0');
-			ft_putstr(" ");
-			ft_putstr(getpwuid(tmp->stat->st_uid)->pw_name);
-			ft_putstr("  ");
-			ft_putstr(getgrgid(tmp->stat->st_gid)->gr_name);
-			ft_putstr("  ");
-			print_size(tmp);
-			ft_putstr(" ");
-			print_time(tmp);
-			ft_putstr(" ");
-			ft_putstr(tmp->name);
-			ft_putstr("\n");
-			tmp = tmp->next;
-		}
+
+		print_type(path);
+		print_permission(*path);
+		ft_putstr("  ");
+		ft_putchar((path->stat->st_nlink) + '0');
+		ft_putstr(" ");
+		ft_putstr(getpwuid(path->stat->st_uid)->pw_name);
+		ft_putstr("  ");
+		ft_putstr(getgrgid(path->stat->st_gid)->gr_name);
+		ft_putstr("  ");
+		print_size(path);
+		ft_putstr(" ");
+		print_time(path);
+		ft_putstr(" ");
+		ft_putstr(path->name);
+		ft_putstr("\n");
+	}
+}
+
+void	printing(t_path *path, char *flags)
+{
+
+	if (ft_strrchr(flags, 'l'))
+	{
+		printing_l(path, flags);
+	}
+	else
+	{
+		ft_putstr(path->name);
+		ft_putstr("\n");
 	}
 }

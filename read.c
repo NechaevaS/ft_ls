@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 15:03:42 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/23 19:25:34 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/26 16:18:39 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_path	*add_to_path(t_path *path, char *curr)
 	elem->next = NULL;
 	elem->stat = (struct stat *)malloc(sizeof(struct stat));
 	stat(elem->name, elem->stat);
+//	if (stat(elem->name, elem->stat) == -1)
+	//printf("%s\n", errno);
 	if (!path)
 		return (elem);
 	current = path;
@@ -34,17 +36,17 @@ t_path	*add_to_path(t_path *path, char *curr)
 	return (path);
 }
 
-t_path	*create_new_path(t_path *path, char *flags)
+t_path	*create_new_path(char *path, char *flags)
 {
 	DIR				*dir;
 	struct dirent	*f;
 	t_path			*new_path;
 
 	new_path = NULL;
-	dir = opendir(path->name);
+	dir = opendir(path);
 	if (!dir)
 	{
-		ft_error(path->name, 1);
+		ft_error(path, 1);
 		return (NULL);
 	}
 	while ((f = readdir(dir)) != NULL)
@@ -53,7 +55,7 @@ t_path	*create_new_path(t_path *path, char *flags)
 			&& !ft_strrchr(flags, 'a') && !ft_strrchr(flags, 'A'))
 			continue;
 		if ((!ft_strcmp(".", f->d_name) || !ft_strcmp("..", f->d_name))
-			&& !ft_strrchr(flags, 'A'))
+			&& !ft_strrchr(flags, 'a'))
 			continue;
 		new_path = add_to_path(new_path, f->d_name);
 	}

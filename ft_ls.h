@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/23 18:59:54 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/26 18:04:16 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <errno.h>
 # include "libft/libft.h"
 
-# define FLAGS		("laASRrtucf")
+# define FLAGS		("laASRrtucf1")
 # define SIX_MONTHS	(15778800)
 
 typedef struct 		s_path
@@ -44,7 +44,9 @@ t_path				*sort_path(t_path *path, char *flags);
 void				printing_l(t_path *path, char *flags);
 void				swap_elem(t_path *p1, t_path *p2);
 void				ft_ls(t_path *path, char *flags);
-void				print_path(t_path *p);
-t_path 				*create_new_path(t_path *path, char *flags);
+void				print_path(t_path *p, char *flags);
+void				printing(t_path *path, char *flags);
+t_path 				*create_new_path(char *path, char *flags);
+int					count_blocks(t_path *p);
 
 #endif

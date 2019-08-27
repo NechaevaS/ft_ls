@@ -6,62 +6,75 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/23 19:28:06 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/08/26 18:35:54 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_folder_name(char *name)
+void print_folder_name(t_path *path, char *flags, int r)
 {
-	ft_putstr("./");
-	ft_putstr(name);
+	if (r)
+		ft_putstr("\n");
+	if (ft_strrchr(flags, 'R'))
+		ft_putstr("./");
+	ft_putstr(path->name);
 	ft_putstr(":\n");
 }
 
-void	ft_ls_rec(t_path *path, char *flags)
+void ft_ls_rec(t_path *path, char *flags, int r)
 {
-	t_path		*n_p;
+	t_path *n_p;
 
-	print_folder_name(path->name);
-	n_p = create_new_path(path, flags);
-	if (!n_p)
-		return ;
-	print_path(n_p);
+	if (ft_strcmp(".", path->name))
+		print_folder_name(path, flags, r);
+	if (!(n_p = create_new_path(path->name, flags)))
+		return;
+	if (ft_strrchr(flags, 'l'))
+	{
+		ft_putstr("total ");
+		ft_putnbr(count_blocks(n_p) + (path->stat->st_blocks));
+		ft_putstr("\n");
+	}
+	print_path(n_p, flags);
 	while (n_p && ft_strrchr(flags, 'R'))
 	{
-		if ((S_ISDIR(n_p->stat->st_mode) || S_ISLNK(n_p->stat->st_mode))
-			&& ft_strcmp(".", n_p->name) && ft_strcmp("..", n_p->name))
+		if ((S_ISDIR(n_p->stat->st_mode)) && ft_strcmp(".", n_p->name) && ft_strcmp("..", n_p->name))
 		{
 			if (!ft_strcmp("/", path->name))
-			{
 				path->name = ft_strjoin(path->name, n_p->name);
-				ft_ls_rec(path, flags);
-			}
 			else
-			{
 				path->name = ft_strjoin(ft_strjoin(path->name, "/"), n_p->name);
-				ft_ls_rec(path, flags);
-			}
+			ft_ls_rec(path, flags, r);
 		}
 		n_p = n_p->next;
 	}
 }
 
-void	ft_ls(t_path *path, char *flags)
+void ft_ls(t_path *path, char *flags)
 {
-	t_path		*tmp;
+	t_path *tmp;
+	int		r;
 
-	tmp = create_new_path(path, flags);
-	if (tmp)
-		print_path(tmp);
+	r = 0;
+	if (!path)
+		return;
+	tmp = path;
+	while (tmp)
+	{
+		if (!S_ISDIR(tmp->stat->st_mode))
+ 			printing(tmp, flags);
+		tmp = tmp->next;
+	}
+	tmp = path;
 	while (tmp)
 	{
 		if (S_ISDIR(tmp->stat->st_mode))
 		{
-			ft_ls_rec(tmp, flags);
+			ft_ls_rec(tmp, flags, r);
 		}
 		tmp = tmp->next;
+		r++;
 	}
-	return ;
+
 }
