@@ -50,13 +50,8 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 		}
 		break ;
 	}
-	//i++;
-	while (i < argc && argc != 1)
-	{
-		path = add_to_path(path, argv[i]);
-		i++;
-	}
-
+	while (++i <= argc && argc != 1)
+		path = add_to_path(path, argv[i -1]);
 	return (path);
 }
 

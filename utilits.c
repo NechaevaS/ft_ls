@@ -23,6 +23,7 @@ int	count_blocks(t_path *p)
 	n_bl = 0;
 	while (p)
 	{
+		//printf("%d\n", n_bl);
 		n_bl = n_bl + (p->stat->st_blocks);
 		p = p->next;
 	}

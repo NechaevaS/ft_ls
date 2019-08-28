@@ -94,8 +94,8 @@ void print_size(t_path *path)
 
 	s = ft_itoa(path->stat->st_size);
 	len = ft_strlen(s);
-	i = 4 - len;
-	if (len == 4)
+	i = 5 - len;
+	if (len == 5)
 	{
 		ft_putstr(s);
 		return;
@@ -124,7 +124,7 @@ void printing_l(t_path *path, char *flags)
 		ft_putstr(getpwuid(path->stat->st_uid)->pw_name);
 		ft_putstr("  ");
 		ft_putstr(getgrgid(path->stat->st_gid)->gr_name);
-		ft_putstr("  ");
+		ft_putstr(" ");
 		print_size(path);
 		ft_putstr(" ");
 		print_time(path);

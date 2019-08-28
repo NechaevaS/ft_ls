@@ -24,7 +24,7 @@ t_path	*add_to_path(t_path *path, char *curr)
 	elem->stat = (struct stat *)malloc(sizeof(struct stat));
 	stat(elem->name, elem->stat);
 //	if (stat(elem->name, elem->stat) == -1)
-	//printf("%s\n", errno);
+//		printf("%d\n", errno);
 	if (!path)
 		return (elem);
 	current = path;
