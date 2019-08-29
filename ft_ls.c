@@ -45,13 +45,13 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 				path->name = ft_strjoin(path->name, n_p->name);
 			else
 				path->name = ft_strjoin(ft_strjoin(path->name, "/"), n_p->name);
-			ft_ls_rec(path, flags, r);
+			ft_ls_rec(path, flags, r + 1);
 		}
 		n_p = n_p->next;
 	}
 }
 
-void ft_ls(t_path *path, char *flags)
+void ft_ls(t_path *path, char *flags, int argc)
 {
 	t_path *tmp;
 	int		r;
@@ -64,17 +64,25 @@ void ft_ls(t_path *path, char *flags)
 	{
 		if (!S_ISDIR(tmp->stat->st_mode))
  			printing(tmp, flags);
+		if (S_ISDIR(tmp->stat->st_mode) && !argc && ft_strcmp(".", tmp->name))
+			printing(tmp, flags);
 		tmp = tmp->next;
 	}
-	tmp = path;
-	while (tmp)
+	if (argc || ft_strrchr(flags, 'R'))
 	{
-		if (S_ISDIR(tmp->stat->st_mode))
+		tmp = path;
+		while (tmp)
 		{
-			ft_ls_rec(tmp, flags, r);
+			if (S_ISDIR(tmp->stat->st_mode))
+			{
+				if (r == 0)
+					ft_ls_rec(tmp, flags, 0);
+				else
+					ft_ls_rec(tmp, flags, 1);
+			}
+			tmp = tmp->next;
+			r++;
 		}
-		tmp = tmp->next;
-		r++;
 	}
 
 }

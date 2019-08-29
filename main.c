@@ -38,9 +38,8 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 
 	i = 0;
 	path = NULL;
-	while (i < argc - 1 && argc != 1)
+	while (++i < argc)
 	{
-		i++;
 		if (!ft_strcmp(argv[i], "--"))
 			i += 1;
 		else if (argv[i][0] == '-')
@@ -51,7 +50,7 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 		break ;
 	}
 	while (++i <= argc && argc != 1)
-		path = add_to_path(path, argv[i -1]);
+		path = add_to_path(0, path, argv[i -1]);
 	return (path);
 }
 
@@ -76,12 +75,16 @@ int		main(int argc, char **argv)
 	{
 		path = parse_args(argv, argc, flags);
 		if (!path)
-			path = add_to_path(path, ".");
-		// print_path(path);
+		{
+			path = add_to_path(0,  path, ".");
+			ft_ls(path, flags, 0);
+		}
 		path = sort_path(path, flags);
+		// print_path(path);
+		
 	//	print_path(path);
 	//	printing(path, flags);
-		ft_ls(path, flags);
+		ft_ls(path, flags, 1);
 	}
 	return (0);
 }
