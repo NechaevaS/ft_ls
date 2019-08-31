@@ -30,6 +30,16 @@
 # define FLAGS		("laASRrtucf")
 # define SIX_MONTHS	(15778800)
 
+# define COL_IFO	"\x1b[33m"
+# define COL_CHR	"\x1b[34;43m"
+# define COL_DIR	"\x1b[1m\x1b[36m"
+# define COL_BLK	"\x1b[34;46m"
+# define COL_REG	"\x1b[0m"
+# define COL_LNK	"\x1b[35m"
+# define COL_SOCK	"\x1b[32m"
+# define COL_EXE	"\x1b[1;32m"
+# define COL_CLR	"\x1b[0m"
+
 typedef struct 		s_path
 {
 	struct stat		*stat;

@@ -113,20 +113,18 @@ void print_size(t_path *path)
 void    print_name(t_path *path)
 {
     if (S_ISDIR(path->stat->st_mode))
-    {
-        // write(1, "[0;34m", 6);
-        // ft_putstr(path->name);
-        // write(1, "[0m", 3);
-       printf("\033[1;31m");
-        printf("%s", path->name);
-      //  ft_putstr(path->name);
-        printf("\033[0m");
-      
-    }
-    else
-       printf("\033[0m");
-       printf("%s", path->name);
-        //ft_putstr(path->name);
+        ft_putstr(COL_DIR);
+    if (S_ISLNK(path->stat->st_mode))
+        ft_putstr(COL_LNK);
+    if (S_ISREG(path->stat->st_mode))
+        ft_putstr(COL_REG);
+    if (S_ISBLK(path->stat->st_mode))
+        ft_putstr(COL_BLK);
+    if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
+        ft_putstr(COL_EXE);
+    ft_putstr(path->name);
+    ft_putstr(COL_CLR);
+
 }
 
 void printing_l(t_path *path, char *flags)
@@ -163,6 +161,6 @@ void	printing(t_path *path, char *flags)
 	else
 	{
 		print_name(path);
-		ft_putstr("\n");
+        ft_putstr("\n");
 	}
 }

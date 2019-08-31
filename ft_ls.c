@@ -26,7 +26,7 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 {
 	t_path *n_p;
 
-	if (ft_strcmp(".", path->name))
+	//if (ft_strcmp(".", path->name))
 		print_folder_name(path, flags, r);
 	if (!(n_p = create_new_path(path->name, flags)))
 		return;
@@ -70,7 +70,7 @@ void ft_ls(t_path *path, char *flags, int argc)
 	{
 		if (!S_ISDIR(tmp->stat->st_mode))
  			printing(tmp, flags);
-		if (S_ISDIR(tmp->stat->st_mode) && !argc && ft_strcmp(".", tmp->name))
+		if (S_ISDIR(tmp->stat->st_mode) && !argc)
 			printing(tmp, flags);
 		tmp = tmp->next;
 	}
