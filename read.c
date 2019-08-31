@@ -27,8 +27,8 @@ t_path	*add_to_path(char *old_p,t_path *path, char *curr)
 		name = ft_strjoin(ft_strjoin(old_p, "/"), elem->name);
 	else
 	{
-//		if (!ft_strcmp(".", elem->name))
-//			name = "./";
+		if (!ft_strcmp(".", elem->name))
+			name = "./";
 		name = elem->name;
 	}
 	stat(name, elem->stat);

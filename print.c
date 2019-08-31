@@ -110,6 +110,25 @@ void print_size(t_path *path)
 	}
 }
 
+void    print_name(t_path *path)
+{
+    if (S_ISDIR(path->stat->st_mode))
+    {
+        // write(1, "[0;34m", 6);
+        // ft_putstr(path->name);
+        // write(1, "[0m", 3);
+       printf("\033[1;31m");
+        printf("%s", path->name);
+      //  ft_putstr(path->name);
+        printf("\033[0m");
+      
+    }
+    else
+       printf("\033[0m");
+       printf("%s", path->name);
+        //ft_putstr(path->name);
+}
+
 void printing_l(t_path *path, char *flags)
 {
 
@@ -129,7 +148,7 @@ void printing_l(t_path *path, char *flags)
 		ft_putstr(" ");
 		print_time(path);
 		ft_putstr(" ");
-		ft_putstr(path->name);
+		print_name(path);
 		ft_putstr("\n");
 	}
 }
@@ -143,7 +162,7 @@ void	printing(t_path *path, char *flags)
 	}
 	else
 	{
-		ft_putstr(path->name);
+		print_name(path);
 		ft_putstr("\n");
 	}
 }

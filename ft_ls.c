@@ -60,6 +60,12 @@ void ft_ls(t_path *path, char *flags, int argc)
 	if (!path)
 		return;
 	tmp = path;
+	if (ft_strrchr(flags, 'l') && !argc)
+	{
+		ft_putstr("total ");
+		ft_putnbr(count_blocks(tmp));
+		ft_putstr("\n");
+	}
 	while (tmp)
 	{
 		if (!S_ISDIR(tmp->stat->st_mode))
