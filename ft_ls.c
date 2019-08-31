@@ -15,8 +15,8 @@
 void print_folder_name(t_path *path, char *flags, int r)
 {
 	if (r)
-		ft_putstr("\n");
-	if (ft_strrchr(flags, 'R'))
+		ft_putstr("\n"); 
+	if (ft_strrchr(flags, 'R') && ft_strcmp(".", path->name))
 		ft_putstr("./");
 	ft_putstr(path->name);
 	ft_putstr(":\n");
@@ -26,7 +26,7 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 {
 	t_path *n_p;
 
-	//if (ft_strcmp(".", path->name))
+	if (ft_strcmp(".", path->name) || (!ft_strcmp(".", path->name) && ft_strrchr(flags, 'R')))
 		print_folder_name(path, flags, r);
 	if (!(n_p = create_new_path(path->name, flags)))
 		return;
@@ -51,7 +51,48 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 	}
 }
 
-void ft_ls(t_path *path, char *flags, int argc)
+// void ft_ls(t_path *path, char *flags, int argc)
+// {
+// 	t_path *tmp;
+// 	int		r;
+
+// 	r = 0;
+// 	if (!path)
+// 		return;
+// 	tmp = path;
+// 	if (ft_strrchr(flags, 'l') && !argc)
+// 	{
+// 		ft_putstr("total ");
+// 		ft_putnbr(count_blocks(tmp));
+// 		ft_putstr("\n");
+// 	}
+// 	while (tmp)
+// 	{
+// 		if (!S_ISDIR(tmp->stat->st_mode))
+//  			printing(tmp, flags);
+// 		if (S_ISDIR(tmp->stat->st_mode) && !argc)
+// 			printing(tmp, flags);
+// 		tmp = tmp->next;
+// 	}
+// 	if (argc || ft_strrchr(flags, 'R'))
+// 	{
+// 		tmp = path;
+// 		while (tmp)
+// 		{
+// 			if (S_ISDIR(tmp->stat->st_mode))
+// 			{
+// 				if (r == 0)
+// 					ft_ls_rec(tmp, flags, 0);
+// 				else
+// 					ft_ls_rec(tmp, flags, 1);
+// 			}
+// 			tmp = tmp->next;
+// 			r++;
+// 		}
+// 	}
+
+// }
+void ft_ls(t_path *path, char *flags)
 {
 	t_path *tmp;
 	int		r;
@@ -60,23 +101,17 @@ void ft_ls(t_path *path, char *flags, int argc)
 	if (!path)
 		return;
 	tmp = path;
-	if (ft_strrchr(flags, 'l') && !argc)
-	{
-		ft_putstr("total ");
-		ft_putnbr(count_blocks(tmp));
-		ft_putstr("\n");
-	}
-	while (tmp)
-	{
-		if (!S_ISDIR(tmp->stat->st_mode))
- 			printing(tmp, flags);
-		if (S_ISDIR(tmp->stat->st_mode) && !argc)
-			printing(tmp, flags);
-		tmp = tmp->next;
-	}
-	if (argc || ft_strrchr(flags, 'R'))
-	{
-		tmp = path;
+	// while (tmp)
+	// {
+	// 	if (!S_ISDIR(tmp->stat->st_mode))
+ 	// 		printing(tmp, flags);
+	// 	if (S_ISDIR(tmp->stat->st_mode) && !argc)
+	// 		printing(tmp, flags);
+	// 	tmp = tmp->next;
+	// }
+	// if (argc || ft_strrchr(flags, 'R'))
+	// {
+	 	tmp = path;
 		while (tmp)
 		{
 			if (S_ISDIR(tmp->stat->st_mode))
@@ -89,6 +124,6 @@ void ft_ls(t_path *path, char *flags, int argc)
 			tmp = tmp->next;
 			r++;
 		}
-	}
+//	}
 
 }

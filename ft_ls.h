@@ -54,7 +54,7 @@ void				print_path_name(t_path *path);
 t_path				*sort_path(t_path *path, char *flags);
 void				printing_l(t_path *path, char *flags);
 void				swap_elem(t_path *p1, t_path *p2);
-void				ft_ls(t_path *path, char *flags, int argc);
+void				ft_ls(t_path *path, char *flags);
 void				print_path(t_path *p, char *flags);
 void				printing(t_path *path, char *flags);
 t_path 				*create_new_path(char *path, char *flags);

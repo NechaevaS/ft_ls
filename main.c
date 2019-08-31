@@ -75,19 +75,10 @@ int		main(int argc, char **argv)
 	{
 		path = parse_args(argv, argc, flags);
 		if (!path)
-		{
-			path = create_new_path(".", flags);
-			ft_ls(path, flags, 0);
-		}
-		else
-		{
-			path = sort_path(path, flags);
-		// print_path(path);
+			path = add_to_path(0, path, ".");
+		path = sort_path(path, flags);
+		ft_ls(path, flags);
 		
-	//	print_path(path);
-	//	printing(path, flags);
-		ft_ls(path, flags, 1);
-		}
 	}
 	return (0);
 }
