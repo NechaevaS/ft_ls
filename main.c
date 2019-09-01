@@ -75,9 +75,16 @@ int		main(int argc, char **argv)
 	{
 		path = parse_args(argv, argc, flags);
 		if (!path)
+		{
 			path = add_to_path(0, path, ".");
-		path = sort_path(path, flags);
-		ft_ls(path, flags);
+			
+			ft_ls(path, flags);
+		}
+		else
+		{
+			path = sort_path(path, flags);
+			ft_ls(path, flags);
+		}
 		
 	}
 	return (0);

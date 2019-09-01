@@ -12,12 +12,12 @@
 
 #include "ft_ls.h"
 
-void print_folder_name(t_path *path, char *flags, int r)
+void print_folder_name(t_path *path, int r)
 {
 	if (r)
 		ft_putstr("\n"); 
-	if (ft_strrchr(flags, 'R') && ft_strcmp(".", path->name))
-		ft_putstr("./");
+//	if (ft_strrchr(flags, 'R') && ft_strcmp(".", path->name))
+//		ft_putstr("./");
 	ft_putstr(path->name);
 	ft_putstr(":\n");
 }
@@ -27,7 +27,7 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 	t_path *n_p;
 
 	if (ft_strcmp(".", path->name) || (!ft_strcmp(".", path->name) && ft_strrchr(flags, 'R')))
-		print_folder_name(path, flags, r);
+		print_folder_name(path, r);
 	if (!(n_p = create_new_path(path->name, flags)))
 		return;
 	if (ft_strrchr(flags, 'l'))
@@ -45,53 +45,14 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 				path->name = ft_strjoin(path->name, n_p->name);
 			else
 				path->name = ft_strjoin(ft_strjoin(path->name, "/"), n_p->name);
+
 			ft_ls_rec(path, flags, r + 1);
 		}
+		//path_del(n_p);
 		n_p = n_p->next;
 	}
 }
 
-// void ft_ls(t_path *path, char *flags, int argc)
-// {
-// 	t_path *tmp;
-// 	int		r;
-
-// 	r = 0;
-// 	if (!path)
-// 		return;
-// 	tmp = path;
-// 	if (ft_strrchr(flags, 'l') && !argc)
-// 	{
-// 		ft_putstr("total ");
-// 		ft_putnbr(count_blocks(tmp));
-// 		ft_putstr("\n");
-// 	}
-// 	while (tmp)
-// 	{
-// 		if (!S_ISDIR(tmp->stat->st_mode))
-//  			printing(tmp, flags);
-// 		if (S_ISDIR(tmp->stat->st_mode) && !argc)
-// 			printing(tmp, flags);
-// 		tmp = tmp->next;
-// 	}
-// 	if (argc || ft_strrchr(flags, 'R'))
-// 	{
-// 		tmp = path;
-// 		while (tmp)
-// 		{
-// 			if (S_ISDIR(tmp->stat->st_mode))
-// 			{
-// 				if (r == 0)
-// 					ft_ls_rec(tmp, flags, 0);
-// 				else
-// 					ft_ls_rec(tmp, flags, 1);
-// 			}
-// 			tmp = tmp->next;
-// 			r++;
-// 		}
-// 	}
-
-// }
 void ft_ls(t_path *path, char *flags)
 {
 	t_path *tmp;
@@ -100,7 +61,9 @@ void ft_ls(t_path *path, char *flags)
 	r = 0;
 	if (!path)
 		return;
-	tmp = path;
+
+//	 if (argc && !ft_strrchr(flags, 'R'))
+	// {
 	// while (tmp)
 	// {
 	// 	if (!S_ISDIR(tmp->stat->st_mode))
@@ -109,9 +72,10 @@ void ft_ls(t_path *path, char *flags)
 	// 		printing(tmp, flags);
 	// 	tmp = tmp->next;
 	// }
-	// if (argc || ft_strrchr(flags, 'R'))
-	// {
-	 	tmp = path;
+	// }
+	//else
+	{
+		tmp = path;
 		while (tmp)
 		{
 			if (S_ISDIR(tmp->stat->st_mode))
@@ -121,9 +85,35 @@ void ft_ls(t_path *path, char *flags)
 				else
 					ft_ls_rec(tmp, flags, 1);
 			}
+			else
+				printing(tmp, flags);
 			tmp = tmp->next;
 			r++;
 		}
-//	}
+	}
 
-}
+ }
+// void ft_ls(t_path *path, char *flags)
+// {
+// 	t_path *tmp;
+// 	int		r;
+
+// 	r = 0;
+// 	if (!path)
+// 		return;
+// 	 	tmp = path;
+// 		while (tmp)
+// 		{
+// 			if (S_ISDIR(tmp->stat->st_mode))
+// 			{
+// 				if (r == 0)
+// 					ft_ls_rec(tmp, flags, 0, (int)path->stat->st_nlink - 1);
+// 				else
+// 					ft_ls_rec(tmp, flags, 1, (int)path->stat->st_nlink - 1);
+// 			}
+// 			printing(tmp, flags);
+// 			tmp = tmp->next;
+// 			r++;
+// 		}
+
+// }

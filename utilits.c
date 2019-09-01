@@ -30,3 +30,20 @@ int	count_blocks(t_path *p)
 	return (n_bl/2);
 }
 
+t_path		*path_del(t_path *p)
+{
+	t_path	*tmp;
+
+	if (!p)
+		tmp = NULL;
+	else
+		tmp = p->next;
+	if (p || p->next)
+	{
+		ft_strdel(&(p->name));
+		free(p->stat);
+		free(p);
+		//p = NULL;
+	}
+	return (tmp);
+}

@@ -59,4 +59,5 @@ void				print_path(t_path *p, char *flags);
 void				printing(t_path *path, char *flags);
 t_path 				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
+t_path		*path_del(t_path *p);
 #endif
