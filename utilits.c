@@ -40,10 +40,10 @@ t_path		*path_del(t_path *p)
 		tmp = p->next;
 	if (p || p->next)
 	{
-		ft_strdel(&(p->name));
+		free(p->name);
 		free(p->stat);
 		free(p);
-		//p = NULL;
+		p = NULL;
 	}
 	return (tmp);
 }
