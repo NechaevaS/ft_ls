@@ -32,8 +32,6 @@ t_path	*add_to_path(char *old_p,t_path *path, char *curr)
 		name = elem->name;
 	}
 	stat(name, elem->stat);
-//	if (stat(elem->name, elem->stat) == -1)
-//		printf("%d\n", errno);
 	if (!path)
 		return (elem);
 	current = path;
@@ -64,10 +62,11 @@ t_path	*create_new_path(char *path, char *flags)
 			&& !ft_strrchr(flags, 'a') && !ft_strrchr(flags, 'A'))
 			continue;
 		if ((!ft_strcmp(".", f->d_name) || !ft_strcmp("..", f->d_name))
-			&& !ft_strrchr(flags, 'a'))
+			&& !ft_strrchr(flags, 'a') && !ft_strrchr(flags, 'f'))
 			continue;
 		new_path = add_to_path(path, new_path, f->d_name);
 	}
-	new_path = sort_path(new_path, flags);
+	if (!ft_strrchr(flags, 'f'))
+		new_path = sort_path(new_path, flags);
 	return (new_path);
 }

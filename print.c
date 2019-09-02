@@ -110,21 +110,25 @@ void print_size(t_path *path)
 	}
 }
 
-void    print_name(t_path *path)
+void    print_name(t_path *path, char *flags)
 {
-    if (S_ISDIR(path->stat->st_mode))
-        ft_putstr(COL_DIR);
-    if (S_ISLNK(path->stat->st_mode))
-        ft_putstr(COL_LNK);
-    if (S_ISREG(path->stat->st_mode))
-        ft_putstr(COL_REG);
-    if (S_ISBLK(path->stat->st_mode))
-        ft_putstr(COL_BLK);
-    if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
-        ft_putstr(COL_EXE);
-    ft_putstr(path->name);
-    ft_putstr(COL_CLR);
-
+    if (!ft_strrchr(flags, 'f'))
+    {
+        if (S_ISDIR(path->stat->st_mode))
+            ft_putstr(COL_DIR);
+        if (S_ISLNK(path->stat->st_mode))
+            ft_putstr(COL_LNK);
+        if (S_ISREG(path->stat->st_mode))
+            ft_putstr(COL_REG);
+        if (S_ISBLK(path->stat->st_mode))
+            ft_putstr(COL_BLK);
+        if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
+            ft_putstr(COL_EXE);
+        ft_putstr(path->name);
+        ft_putstr(COL_CLR);
+    }
+    else
+        ft_putstr(path->name);
 }
 
 void printing_l(t_path *path, char *flags)
@@ -146,7 +150,7 @@ void printing_l(t_path *path, char *flags)
 		ft_putstr(" ");
 		print_time(path);
 		ft_putstr(" ");
-		print_name(path);
+		print_name(path, flags);
 		ft_putstr("\n");
 	}
 }
@@ -160,7 +164,7 @@ void	printing(t_path *path, char *flags)
 	}
 	else
 	{
-		print_name(path);
+		print_name(path, flags);
         ft_putstr("\n");
 	}
 }

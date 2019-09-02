@@ -53,7 +53,7 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 	}
 }
 
-void ft_ls(t_path *path, char *flags)
+void ft_ls(t_path *path, char *flags,int argc)
 {
 	t_path *tmp;
 	int r;
@@ -61,7 +61,19 @@ void ft_ls(t_path *path, char *flags)
 	r = 0;
 	if (!path)
 		return;
-
+	tmp = path;
+	if (argc)
+	{
+		while (tmp)
+		{
+			if (!S_ISDIR(tmp->stat->st_mode))
+			{
+				printing(tmp, flags);
+			}
+			tmp = tmp->next;
+			r++;
+		}
+	}
 	tmp = path;
 	while (tmp)
 	{
@@ -73,7 +85,10 @@ void ft_ls(t_path *path, char *flags)
 				ft_ls_rec(tmp, flags, 1);
 		}
 		else
+		{
+			if (!argc)
 			printing(tmp, flags);
+		}
 		tmp = tmp->next;
 		r++;
 	}

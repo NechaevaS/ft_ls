@@ -77,13 +77,13 @@ int		main(int argc, char **argv)
 		if (!path)
 		{
 			path = add_to_path(0, path, ".");
-			
-			ft_ls(path, flags);
+			ft_ls(path, flags, 0);
 		}
 		else
 		{
-			path = sort_path(path, flags);
-			ft_ls(path, flags);
+			if (!ft_strrchr(flags, 'f'))
+				path = sort_path(path, flags);
+			ft_ls(path, flags, 1);
 		}
 		
 	}
