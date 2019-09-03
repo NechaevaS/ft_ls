@@ -46,3 +46,4 @@ t_path		*path_del(t_path *p)
 	}
 	return (tmp);
 }
+

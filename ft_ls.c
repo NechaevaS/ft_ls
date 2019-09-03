@@ -25,7 +25,8 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 	t_path *n_p;
 	char *tmp;
 
-	if (ft_strcmp(".", path->name) || (!ft_strcmp(".", path->name) && ft_strrchr(flags, 'R')))
+	if ((ft_strcmp(".", path->name) || !ft_strcmp(".", path->name)) &&
+		ft_strrchr(flags, 'R') && r)
 		print_folder_name(path, r);
 	if (!(n_p = create_new_path(path->name, flags)))
 		return;
@@ -71,8 +72,8 @@ void ft_ls(t_path *path, char *flags,int argc)
 				printing(tmp, flags);
 			}
 			tmp = tmp->next;
-			r++;
 		}
+		r++;
 	}
 	tmp = path;
 	while (tmp)

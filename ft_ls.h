@@ -27,7 +27,7 @@
 # include <errno.h>
 # include "libft/libft.h"
 
-# define FLAGS		("laASRrtucf")
+# define FLAGS		("laASRrtucf1")
 # define SIX_MONTHS	(15778800)
 
 # define COL_IFO	"\x1b[33m"
@@ -47,9 +47,15 @@ typedef struct 		s_path
 	struct s_path	*next;
 }					t_path;
 
+typedef struct
+{
+	int				cols;
+	int				rows;
+}					t_col;
+
 void				ft_error(const char *s, int n);
 //t_path				*add_to_path(t_path *path, char *curr);
-t_path	*add_to_path(char *old_p,t_path *path, char *curr);
+t_path				*add_to_path(char *old_p,t_path *path, char *curr);
 void				print_path_name(t_path *path);
 t_path				*sort_path(t_path *path, char *flags);
 void				printing_l(t_path *path, char *flags);
@@ -59,5 +65,7 @@ void				print_path(t_path *p, char *flags);
 void				printing(t_path *path, char *flags);
 t_path 				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
-t_path		*path_del(t_path *p);
+t_path				*path_del(t_path *p);
+void				print_column(t_path *p, char *flags);
+void				print_name(t_path *path, char *flags);
 #endif

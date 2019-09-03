@@ -19,6 +19,7 @@ OBJS = main.o\
 			print.c\
 			sort_utils.o\
 			ft_ls.o\
+			column.o\
 			libft/libft.a
 
 CFLAGS = -Wall -Wextra -Werror -g

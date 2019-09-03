@@ -56,11 +56,17 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 
 void	print_path(t_path *p, char *flags)
 {
-	while (p)
-	{
-		printing(p, flags);
-		p = p->next;
-	}
+//	if (!ft_strrchr(flags, '1'))
+//        print_column(p, flags);
+//	else
+//	{
+		while (p)
+		{
+			printing(p, flags);
+			p = p->next;
+		}
+		ft_putstr("\n");
+//	}
 }
 
 int		main(int argc, char **argv)
