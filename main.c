@@ -54,19 +54,24 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 	return (path);
 }
 
-void	print_path(t_path *p, char *flags)
+void	print_path(t_path *p, char *flags, int srt)
 {
-//	if (!ft_strrchr(flags, '1'))
-//        print_column(p, flags);
-//	else
-//	{
+	if (!ft_strrchr(flags, '1') && !srt)
+      print_column(p, flags);
+	else
+	{
 		while (p)
 		{
-			printing(p, flags);
+
+           	printing(p, flags);
+			if (!ft_strrchr(flags, '1'))
+           		ft_putstr("  ");
+       		else
+           		ft_putstr("\n");
 			p = p->next;
 		}
 		ft_putstr("\n");
-//	}
+	}
 }
 
 int		main(int argc, char **argv)

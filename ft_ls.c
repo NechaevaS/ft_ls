@@ -36,7 +36,7 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 		ft_putnbr(count_blocks(n_p));
 		ft_putstr("\n");
 	}
-	print_path(n_p, flags);
+	print_path(n_p, flags, 0);
 	tmp = path->name;
 	while (n_p && ft_strrchr(flags, 'R'))
 	{

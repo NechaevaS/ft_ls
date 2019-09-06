@@ -165,9 +165,9 @@ void	printing(t_path *path, char *flags)
 	else
 	{
 		print_name(path, flags);
-        if (!ft_strrchr(flags, '1'))
-            ft_putstr("  ");
-        else
-            ft_putstr("\n");
+    //    if (!ft_strrchr(flags, '1'))
+    //        ft_putstr("  ");
+     //   else
+     //       ft_putstr("\n");
 	}
 }
