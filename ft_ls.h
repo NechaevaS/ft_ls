@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/21 17:38:41 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/09 15:50:59 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct 		s_path
 
 typedef struct
 {
+	int				n_elem;
+	int				blk_l;
 	int				cols;
 	int				rows;
 }					t_col;
