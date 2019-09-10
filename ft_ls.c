@@ -6,18 +6,21 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/26 18:35:54 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:20:14 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void print_folder_name(t_path *path, int r)
+void print_folder_name(t_path *path, int r, char *flags)
 {
-	if (r)
+	if ((ft_strcmp(".", path->name) || (!ft_strcmp(".", path->name)
+		&& ft_strrchr(flags, 'R'))) && r)
+	{
 		ft_putstr("\n");
-	ft_putstr(path->name);
-	ft_putstr(":\n");
+		ft_putstr(path->name);
+		ft_putstr(":\n");
+	}
 }
 
 void ft_ls_rec(t_path *path, char *flags, int r)
@@ -25,9 +28,7 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 	t_path *n_p;
 	char *tmp;
 
-	if ((ft_strcmp(".", path->name) || !ft_strcmp(".", path->name)) &&
-		ft_strrchr(flags, 'R') && r)
-		print_folder_name(path, r);
+	print_folder_name(path, r, flags);
 	if (!(n_p = create_new_path(path->name, flags)))
 		return;
 	if (ft_strrchr(flags, 'l'))
@@ -54,43 +55,38 @@ void ft_ls_rec(t_path *path, char *flags, int r)
 	}
 }
 
-void ft_ls(t_path *path, char *flags,int argc)
+void	ft_ls(t_path *path, char *flags, int argc)
 {
-	t_path *tmp;
-	int r;
+	t_path	*tmp;
+	int		r;
+	int		f;
 
 	r = 0;
 	if (!path)
-		return;
+		return ;
 	tmp = path;
 	if (argc)
 	{
-		while (tmp)
-		{
-			if (!S_ISDIR(tmp->stat->st_mode))
-			{
-				printing(tmp, flags);
-			}
-			tmp = tmp->next;
-		}
+		print_path(tmp, flags, argc);
 		r++;
 	}
 	tmp = path;
+	f = 0;
 	while (tmp)
 	{
 		if (S_ISDIR(tmp->stat->st_mode))
 		{
-			if (r == 0)
-				ft_ls_rec(tmp, flags, 0);
-			else
-				ft_ls_rec(tmp, flags, 1);
+			if (f == 0)
+				r = 0;
+			ft_ls_rec(tmp, flags, r);
 		}
 		else
 		{
 			if (!argc)
-			printing(tmp, flags);
+				printing(tmp, flags);
 		}
 		tmp = tmp->next;
 		r++;
+		f++;
 	}
 }

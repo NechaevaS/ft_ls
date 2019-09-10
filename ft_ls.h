@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/09 15:50:59 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:24:33 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define COL_REG	"\x1b[0m"
 # define COL_LNK	"\x1b[35m"
 # define COL_SOCK	"\x1b[32m"
-# define COL_EXE	"\x1b[1;32m"
+# define COL_EXE	"\x1b[0;31m"
 # define COL_CLR	"\x1b[0m"
 
 typedef struct 		s_path
@@ -68,6 +68,6 @@ void				printing(t_path *path, char *flags);
 t_path 				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
 t_path				*path_del(t_path *p);
-void				print_column(t_path *p, char *flags);
+void				print_column(t_path *p, char *flags, int argc);
 void				print_name(t_path *path, char *flags);
 #endif

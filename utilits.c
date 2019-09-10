@@ -26,7 +26,7 @@ int	count_blocks(t_path *p)
 		n_bl = n_bl + (p->stat->st_blocks);
 		p = p->next;
 	}
-	return (n_bl/2);
+	return (n_bl);
 }
 
 t_path		*path_del(t_path *p)

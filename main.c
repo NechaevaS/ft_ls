@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/26 18:27:27 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/09 17:05:48 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,24 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 		break ;
 	}
 	while (++i <= argc && argc != 1)
-		path = add_to_path(0, path, argv[i -1]);
+		path = add_to_path(0, path, argv[i - 1]);
 	return (path);
 }
 
-void	print_path(t_path *p, char *flags, int srt)
+void	print_path(t_path *p, char *flags, int argc)
 {
-	if (!ft_strrchr(flags, '1') && !srt)
-      print_column(p, flags);
+
+	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l'))
+		print_column(p, flags, argc);
 	else
 	{
 		while (p)
 		{
-
-           	printing(p, flags);
-			if (!ft_strrchr(flags, '1'))
-           		ft_putstr("  ");
-       		else
-           		ft_putstr("\n");
+			printing(p, flags);
 			p = p->next;
 		}
-		ft_putstr("\n");
+		if (!ft_strrchr(flags, 'l'))
+			ft_putstr("\n");
 	}
 }
 
@@ -96,7 +93,7 @@ int		main(int argc, char **argv)
 				path = sort_path(path, flags);
 			ft_ls(path, flags, 1);
 		}
-		
+
 	}
 	return (0);
 }

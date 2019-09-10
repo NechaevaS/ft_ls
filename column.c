@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:15:06 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/09 16:15:11 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/09 16:50:10 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,22 @@ int		path_len(t_path *p)
 	return (len);
 }
 
-void	fill_arr(t_path **arr, t_path *p)
+void	fill_arr(t_path **arr, t_path *p, int argc)
 {
 	int	i;
 
 	i = 0;
 	while (p)
 	{
-		arr[i] = p;
-		p = p->next;
-		i++;
+
+		if (argc  == 1 && (S_ISDIR(p->stat->st_mode) || S_ISLNK(p->stat->st_mode)))
+			p = p->next;
+		else
+		{
+			arr[i] = p;
+			p = p->next;
+			i++;
+		}
 	}
 	arr[i] = NULL;
 }
@@ -82,7 +88,7 @@ void	print_row(t_col col, t_path **arr, int start, char *flags)
 	ft_putstr("\n");
 }
 
-void	print_column(t_path *p, char *flags)
+void	print_column(t_path *p, char *flags, int argc)
 {
 	t_path			**arr;
 	struct winsize	ws;
@@ -96,7 +102,9 @@ void	print_column(t_path *p, char *flags)
 	if (ioctl(0, TIOCGWINSZ, &ws) != 0)
 		return (print_path(p, flags, 0));
 	arr = (t_path **)malloc(sizeof(t_path *) * col.n_elem + 1);
-	fill_arr(arr, p);
+	fill_arr(arr, p, argc);
+	if (arr[0] == NULL)
+		return;
 	all_len = (get_max(arr, col.n_elem, 0, 0) + 2) * col.n_elem;
 	col.cols = ws.ws_col / get_max(arr, col.n_elem, 0, 0);
 	col.blk_l = ws.ws_col / col.cols;
