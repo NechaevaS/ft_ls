@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/09 17:20:14 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/10 13:11:45 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_ls(t_path *path, char *flags, int argc)
 	if (!path)
 		return ;
 	tmp = path;
-	if (argc)
+	if (argc && ft_strncmp("../", path->name, 3))
 	{
 		print_path(tmp, flags, argc);
 		r++;

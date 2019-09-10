@@ -6,13 +6,13 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/09 17:02:44 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/10 12:58:53 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void print_type(t_path *path)
+void	print_type(t_path *path)
 {
 	if (S_ISDIR(path->stat->st_mode))
 		ft_putchar('d');
@@ -30,9 +30,9 @@ void print_type(t_path *path)
 		ft_putchar('s');
 }
 
-void print_permission(t_path path)
+void	print_permission(t_path path)
 {
-	char res[10];
+	char	res[10];
 
 	ft_memset(res, '-', 9);
 	res[9] = '\0';
@@ -57,11 +57,29 @@ void print_permission(t_path path)
 	ft_putstr(res);
 }
 
-void print_time(t_path *path)
+void	print_extattr(t_path *path)
 {
-	char *t;
-	char **arr;
-	time_t t_now;
+	ssize_t	buflen;
+//	acl_t	acl;
+
+	buflen = listxattr(path->name, NULL, 0, XATTR_NOFOLLOW);
+//	acl = acl_get_link_np(path->name, ACL_TYPE_EXTENDED);
+	if (buflen > 0)
+		ft_putchar('@');
+	// else if (acl)
+	// {
+	// 	ft_putchar('+');
+	// 	acl_free(acl);
+	// }
+	else
+		ft_putchar(' ');
+}
+
+void	print_time(t_path *path)
+{
+	char	*t;
+	char	**arr;
+	time_t	t_now;
 
 	t_now = time(NULL);
 	t = ctime(&path->stat->st_mtime);
@@ -86,11 +104,11 @@ void print_time(t_path *path)
 	}
 }
 
-void print_size(t_path *path)
+void	print_size(t_path *path)
 {
-	char *s;
-	int len;
-	int i;
+	char	*s;
+	int		len;
+	int		i;
 
 	s = ft_itoa(path->stat->st_size);
 	len = ft_strlen(s);
@@ -98,7 +116,7 @@ void print_size(t_path *path)
 	if (len == 5)
 	{
 		ft_putstr(s);
-		return;
+		return ;
 	}
 	while (i >= 0)
 	{
@@ -110,28 +128,40 @@ void print_size(t_path *path)
 	}
 }
 
-void    print_name(t_path *path, char *flags)
+void	print_name(t_path *path, char *flags)
 {
-    if (!ft_strrchr(flags, 'f'))
-    {
-        if (S_ISDIR(path->stat->st_mode))
-            ft_putstr(COL_DIR);
-        if (S_ISLNK(path->stat->st_mode))
-            ft_putstr(COL_LNK);
-        if (S_ISREG(path->stat->st_mode))
-            ft_putstr(COL_REG);
-        if (S_ISBLK(path->stat->st_mode))
-            ft_putstr(COL_BLK);
-        if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
-            ft_putstr(COL_EXE);
-        ft_putstr(path->name);
-        ft_putstr(COL_CLR);
-    }
-    else
-        ft_putstr(path->name);
+	if (!ft_strrchr(flags, 'f'))
+	{
+		if (S_ISDIR(path->stat->st_mode))
+			ft_putstr(COL_DIR);
+		if (S_ISLNK(path->stat->st_mode))
+			ft_putstr(COL_LNK);
+		if (S_ISREG(path->stat->st_mode))
+			ft_putstr(COL_REG);
+		if (S_ISBLK(path->stat->st_mode))
+			ft_putstr(COL_BLK);
+		if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
+			ft_putstr(COL_EXE);
+		ft_putstr(path->name);
+		ft_putstr(COL_CLR);
+	}
+	else
+		ft_putstr(path->name);
 }
 
-void printing_l(t_path *path, char *flags)
+void	print_link(char *name)
+{
+	char	*linkname;
+
+	linkname = (char *)malloc(1000);
+	ft_bzero(linkname, 1000);
+	readlink(name, linkname, 1000);
+	ft_putstr(" -> ");
+	ft_putstr(linkname);
+	free(linkname);
+}
+
+void	printing_l(t_path *path, char *flags)
 {
 
 	if (ft_strrchr(flags, 'l'))
@@ -139,7 +169,8 @@ void printing_l(t_path *path, char *flags)
 
 		print_type(path);
 		print_permission(*path);
-		ft_putstr("  ");
+		print_extattr(path);
+		ft_putstr(" ");
 		ft_putchar((path->stat->st_nlink) + '0');
 		ft_putstr(" ");
 		ft_putstr(getpwuid(path->stat->st_uid)->pw_name);
@@ -151,6 +182,8 @@ void printing_l(t_path *path, char *flags)
 		print_time(path);
 		ft_putstr(" ");
 		print_name(path, flags);
+		if (S_ISBLK(path->stat->st_mode))
+			print_link(path->name);
 		ft_putstr("\n");
 	}
 }

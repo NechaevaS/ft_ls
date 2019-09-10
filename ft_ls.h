@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/09 17:24:33 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/10 13:24:12 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <sys/xattr.h>
 # include <sys/stat.h>
 # include <sys/types.h>
-//# include <uuid/uuid.h>
+# include <uuid/uuid.h>
 # include <sys/ioctl.h>
 # include <pwd.h>
 # include <grp.h>
