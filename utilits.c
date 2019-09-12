@@ -3,10 +3,13 @@
 void ft_error(const char *s, int n)
 {
 	write(1, "ft_ls: ", 7);
-	//ft_putstr(s);
-	//write(1, ": ", 2);
+
 	if (n == 1)
+	{
+			ft_putstr(s);
+			write(1, ": ", 2);
 		ft_putstr("No such file or directory\n");
+	}
 	if (n == 2)
 	{
 		ft_putstr(" invalid option -");
@@ -14,6 +17,19 @@ void ft_error(const char *s, int n)
 		write(1, "\n", 1);
 		ft_putstr("usage: ft_ls [laASRrtucf] [file ...]\n");
 	}
+}
+
+void	swap_elem(t_path *p1, t_path *p2)
+{
+	char		*t_name;
+	struct stat *t_stat;
+
+	t_name = p1->name;
+	p1->name = p2->name;
+	p2->name = t_name;
+	t_stat = p1->stat;
+	p1->stat = p2->stat;
+	p2->stat = t_stat;
 }
 
 int	count_blocks(t_path *p)
@@ -46,4 +62,3 @@ t_path		*path_del(t_path *p)
 	}
 	return (tmp);
 }
-

@@ -6,32 +6,63 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 15:03:42 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/26 16:18:39 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/12 15:31:09 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_path	*add_to_path(char *old_p,t_path *path, char *curr)
+void	add_link_and_attr(t_path *elem)
 {
-	t_path	*current;
+	ssize_t	buflen;
+	acl_t	acl;
+
+	buflen = listxattr(elem->all_p, NULL, 0, XATTR_NOFOLLOW);
+	acl = acl_get_link_np(elem->all_p, ACL_TYPE_EXTENDED);
+	if (buflen > 0)
+		elem->attr = '@';
+	else if (acl)
+		elem->attr = '+';
+	else
+		elem->attr = 0;
+
+	if (S_ISLNK(elem->stat->st_mode))
+		readlink(elem->all_p, elem->link, 1000);
+}
+
+t_path	*init_elem(char *curr)
+{
 	t_path	*elem;
-	char *name = 0;
 
 	if (!(elem = (t_path *)malloc(sizeof(t_path))))
 		return (NULL);
+	elem->link = (char *)malloc(1000);
+	ft_bzero((char *)elem->link, 1000);
+	elem->all_p = (char *)malloc(1000);
+	ft_bzero((char *)elem->all_p, 1000);
 	elem->name = ft_strdup(curr);
 	elem->next = NULL;
 	elem->stat = (struct stat *)malloc(sizeof(struct stat));
+	return (elem);
+}
+
+t_path	*add_to_path(char *old_p, t_path *path, char *curr)
+{
+	t_path	*current;
+	t_path	*elem;
+
+	elem = init_elem(curr);
 	if (old_p)
-		name = ft_strjoin(ft_strjoin(old_p, "/"), elem->name);
+		elem->all_p = ft_strjoin(ft_strjoin(old_p, "/"), elem->name);
 	else
 	{
 		if (!ft_strcmp(".", elem->name))
-			name = "./";
-		name = elem->name;
+			elem->all_p = "./";
+		elem->all_p = elem->name;
 	}
-	stat(name, elem->stat);
+	if (lstat(elem->all_p, elem->stat) < 0)
+		ft_error(elem->all_p, 1);
+	add_link_and_attr(elem);
 	if (!path)
 		return (elem);
 	current = path;

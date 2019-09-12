@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   print_info_l.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/10 12:58:53 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/12 14:45:33 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,6 @@ void	print_permission(t_path path)
 	if (path.stat->st_mode & S_IXOTH)
 		res[8] = 'x';
 	ft_putstr(res);
-}
-
-void	print_extattr(t_path *path)
-{
-	ssize_t	buflen;
-//	acl_t	acl;
-
-	buflen = listxattr(path->name, NULL, 0, XATTR_NOFOLLOW);
-//	acl = acl_get_link_np(path->name, ACL_TYPE_EXTENDED);
-	if (buflen > 0)
-		ft_putchar('@');
-	// else if (acl)
-	// {
-	// 	ft_putchar('+');
-	// 	acl_free(acl);
-	// }
-	else
-		ft_putchar(' ');
 }
 
 void	print_time(t_path *path)
@@ -128,75 +110,25 @@ void	print_size(t_path *path)
 	}
 }
 
-void	print_name(t_path *path, char *flags)
+void	print_num_lnk(t_path *path)
 {
-	if (!ft_strrchr(flags, 'f'))
+	int	n_lnk;
+	char *s;
+
+	n_lnk = path->stat->st_nlink;
+	s = ft_itoa(n_lnk);
+	if (n_lnk < 100)
 	{
-		if (S_ISDIR(path->stat->st_mode))
-			ft_putstr(COL_DIR);
-		if (S_ISLNK(path->stat->st_mode))
-			ft_putstr(COL_LNK);
-		if (S_ISREG(path->stat->st_mode))
-			ft_putstr(COL_REG);
-		if (S_ISBLK(path->stat->st_mode))
-			ft_putstr(COL_BLK);
-		if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
-			ft_putstr(COL_EXE);
-		ft_putstr(path->name);
-		ft_putstr(COL_CLR);
-	}
-	else
-		ft_putstr(path->name);
-}
-
-void	print_link(char *name)
-{
-	char	*linkname;
-
-	linkname = (char *)malloc(1000);
-	ft_bzero(linkname, 1000);
-	readlink(name, linkname, 1000);
-	ft_putstr(" -> ");
-	ft_putstr(linkname);
-	free(linkname);
-}
-
-void	printing_l(t_path *path, char *flags)
-{
-
-	if (ft_strrchr(flags, 'l'))
-	{
-
-		print_type(path);
-		print_permission(*path);
-		print_extattr(path);
-		ft_putstr(" ");
-		ft_putchar((path->stat->st_nlink) + '0');
-		ft_putstr(" ");
-		ft_putstr(getpwuid(path->stat->st_uid)->pw_name);
-		ft_putstr("  ");
-		ft_putstr(getgrgid(path->stat->st_gid)->gr_name);
-		ft_putstr(" ");
-		print_size(path);
-		ft_putstr(" ");
-		print_time(path);
-		ft_putstr(" ");
-		print_name(path, flags);
-		if (S_ISBLK(path->stat->st_mode))
-			print_link(path->name);
-		ft_putstr("\n");
-	}
-}
-
-void	printing(t_path *path, char *flags)
-{
-
-	if (ft_strrchr(flags, 'l'))
-	{
-		printing_l(path, flags);
+		if (n_lnk < 10 && n_lnk >= 0)
+			ft_putstr(" ");
+		ft_putstr(s);
 	}
 	else
 	{
-		print_name(path, flags);
+		if (n_lnk < 10 && n_lnk >= 0)
+			ft_putstr("  ");
+		if (n_lnk >= 10 && n_lnk < 100)
+			ft_putstr(" ");
+		ft_putstr(s);
 	}
 }

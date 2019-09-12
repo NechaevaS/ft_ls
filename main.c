@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/09 17:05:48 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/12 14:54:54 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,6 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 	return (path);
 }
 
-void	print_path(t_path *p, char *flags, int argc)
-{
-
-	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l'))
-		print_column(p, flags, argc);
-	else
-	{
-		while (p)
-		{
-			printing(p, flags);
-			p = p->next;
-		}
-		if (!ft_strrchr(flags, 'l'))
-			ft_putstr("\n");
-	}
-}
-
 int		main(int argc, char **argv)
 {
 	char	*flags;
@@ -93,7 +76,6 @@ int		main(int argc, char **argv)
 				path = sort_path(path, flags);
 			ft_ls(path, flags, 1);
 		}
-
 	}
 	return (0);
 }
