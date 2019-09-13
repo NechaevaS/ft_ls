@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 14:46:29 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 16:16:37 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ void	print_name(t_path *path)
 		ft_putstr(path->name);
 }
 
-void	print_path(t_path *p, char *flags, int argc)
+void	print_path(t_path *p, char *flags, int argc, int r)
 {
 	int max_lnk;
 	int max_size;
 
 	max_lnk = get_max_n(p, 1);
+	r = 0;
 	max_size = get_max_n(p, 2);
 	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l')
 		&& isatty(fileno(stdout)))
@@ -47,9 +48,21 @@ void	print_path(t_path *p, char *flags, int argc)
 	{
 		while (p)
 		{
-			printing(p, flags, max_lnk, max_size);
-			ft_putstr("\n");
-			p = p->next;
+			if (!r)
+			{
+				if (!S_ISDIR(p->stat->st_mode))
+				{
+					printing(p, flags, max_lnk, max_size);
+					ft_putstr("\n");
+				}
+				p = p->next;
+			}
+			else
+			{
+				printing(p, flags, max_lnk, max_size);
+				ft_putstr("\n");
+				p = p->next;
+			}
 		}
 	}
 }

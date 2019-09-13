@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 13:33:29 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 15:56:40 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void				print_time(t_path *path);
 void				print_size(t_path *path, int max_size);
 void				print_num_lnk(t_path *path, int max_lnk);
 void				print_name(t_path *path);
-void				print_path(t_path *p, char *flags, int srt);
+void				print_path(t_path *p, char *flags, int srt, int r);
 void				printing_l(t_path *path, int max_lnk, int max_size);
 void				printing(t_path *path, char *flags, int max_lnk, int max_size);
 #endif

@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:15:06 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 15:07:21 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 15:59:09 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,13 @@ void	print_column(t_path *p, char *flags, int argc)
 
 	all_len = 0;
 	i = 0;
-	col.n_elem = path_len(p, argc);
+	if (!(col.n_elem = path_len(p, argc)))
+		return ;
 	if (ioctl(0, TIOCGWINSZ, &ws) != 0)
-		return (print_path(p, flags, 0));
+		return (print_path(p, flags, 0, 0));
 	arr = fill_arr(p, argc, col);
 	if (arr == NULL)
-		return;
+		return ;
 	all_len = (get_max(arr, col.n_elem, 0, 0) + 2) * col.n_elem;
 	col.cols = ws.ws_col / get_max(arr, col.n_elem, 0, 0);
 	col.blk_l = ws.ws_col / col.cols;

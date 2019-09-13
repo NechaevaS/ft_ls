@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 13:34:09 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 15:46:32 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,6 @@ void	print_size(t_path *path, int max_size)
 		max_size--;
 	}
 	ft_putstr(s);
-	// i = 5 - len;
-	// if (len == 5)
-	// {
-	// 	ft_putstr(s);
-	// 	return ;
-	// }
-	// while (i >= 0)
-	// {
-	// 	if ((i + len) == len)
-	// 		ft_putstr(s);
-	// 	else
-	// 		ft_putstr(" ");
-	// 	i--;
-	// }
 }
 
 void	print_num_lnk(t_path *path, int max_lnk)

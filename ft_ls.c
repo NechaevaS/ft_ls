@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 14:17:25 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 16:05:19 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_ls_rec(t_path *path, char *flags, int r)
 	if (!(n_p = create_new_path(path->name, flags)))
 		return ;
 	print_folder_name(path, r, flags, n_p);
-	print_path(n_p, flags, 0);
+	print_path(n_p, flags, 0, r);
 	tmp = path->name;
 	while (n_p && ft_strrchr(flags, 'R'))
 	{
@@ -63,7 +63,7 @@ void	print_argc(t_path *path, char *flags, int argc, int *r)
 		return ;
 	if (argc && ft_strncmp("../", path->name, 3))
 	{
-		print_path(path, flags, argc);
+		print_path(path, flags, argc, 0);
 		(*r)++;
 	}
 }
