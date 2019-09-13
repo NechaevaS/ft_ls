@@ -90,7 +90,7 @@ void	ft_ls(t_path *path, char *flags, int argc)
 		else
 		{
 			if (!argc)
-				printing(tmp, flags);
+				printing(tmp, flags, 0);
 		}
 		tmp = tmp->next;
 		r++;

@@ -68,14 +68,15 @@ void				ft_ls(t_path *path, char *flags, int argc);
 t_path 				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
 t_path				*path_del(t_path *p);
+int					get_max_n_lnk(t_path *p);
 void				print_column(t_path *p, char *flags, int argc);
 void				print_type(t_path *path);
 void				print_permission(t_path path);
 void				print_time(t_path *path);
 void				print_size(t_path *path);
-void				print_num_lnk(t_path *path);
+void				print_num_lnk(t_path *path, int max_lnk);
 void				print_name(t_path *path, char *flags);
 void				print_path(t_path *p, char *flags, int srt);
-void				printing_l(t_path *path, char *flags);
-void				printing(t_path *path, char *flags);
+void				printing_l(t_path *path, char *flags, int max_lnk);
+void				printing(t_path *path, char *flags, int max_lnk);
 #endif

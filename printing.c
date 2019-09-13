@@ -14,7 +14,7 @@
 
 void	print_name(t_path *path, char *flags)
 {
-	if (!ft_strrchr(flags, 'f') && !isatty(fileno(stdout)))
+	if (!ft_strrchr(flags, 'f') || !isatty(fileno(stdout)))
 	{
 		if (S_ISDIR(path->stat->st_mode))
 			ft_putstr(COL_DIR);
@@ -35,32 +35,32 @@ void	print_name(t_path *path, char *flags)
 
 void	print_path(t_path *p, char *flags, int argc)
 {
+	int max;
+
+	max = get_max_n_lnk(p);
 	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l') && isatty(fileno(stdout)))
 		print_column(p, flags, argc);
 	else
 	{
 		while (p)
 		{
-			printing(p, flags);
-			p = p->next;
-			if (!isatty(fileno(stdout)))
+			printing(p, flags, max);
 				ft_putstr("\n");
+			p = p->next;
 		}
-		if (!ft_strrchr(flags, 'l'))
-			ft_putstr("\n");
 	}
 }
 
-void	printing_l(t_path *path, char *flags)
+void	printing_l(t_path *path, char *flags, int max_lnk)
 {
 	print_type(path);
 	print_permission(*path);
 	if (path->attr)
 		ft_putchar(path->attr);
-	else
-		ft_putstr(" ");
+//	else
+//		ft_putstr(" ");
 	ft_putstr(" ");
-	print_num_lnk(path);
+	print_num_lnk(path, max_lnk);
 	ft_putstr(" ");
 	ft_putstr(getpwuid(path->stat->st_uid)->pw_name);
 	ft_putstr("  ");
@@ -76,15 +76,15 @@ void	printing_l(t_path *path, char *flags)
 		ft_putstr(" -> ");
 		ft_putstr(path->link);
 	}
-	ft_putstr("\n");
+//	ft_putstr("\n");
 }
 
-void	printing(t_path *path, char *flags)
+void	printing(t_path *path, char *flags, int max_lnk)
 {
 
 	if (ft_strrchr(flags, 'l'))
 	{
-		printing_l(path, flags);
+		printing_l(path, flags, max_lnk);
 	}
 	else
 	{

@@ -110,25 +110,32 @@ void	print_size(t_path *path)
 	}
 }
 
-void	print_num_lnk(t_path *path)
+void	print_num_lnk(t_path *path, int max_lnk)
 {
 	int	n_lnk;
 	char *s;
 
 	n_lnk = path->stat->st_nlink;
 	s = ft_itoa(n_lnk);
-	if (n_lnk < 100)
+	while(max_lnk > (int)ft_strlen(s))
 	{
-		if (n_lnk < 10 && n_lnk >= 0)
-			ft_putstr(" ");
-		ft_putstr(s);
+		ft_putstr(" ");
+		max_lnk--;
 	}
-	else
-	{
-		if (n_lnk < 10 && n_lnk >= 0)
-			ft_putstr("  ");
-		if (n_lnk >= 10 && n_lnk < 100)
-			ft_putstr(" ");
-		ft_putstr(s);
-	}
+	ft_putstr(s);
+	// if (n_lnk < 100)
+	// {
+
+	// 	if (n_lnk < 10 && n_lnk >= 0)
+	// 		ft_putstr(" ");
+	// 	ft_putstr(s);
+	// }
+	// else
+	// {
+	// 	if (n_lnk < 10 && n_lnk >= 0)
+	// 		ft_putstr("  ");
+	// 	if (n_lnk >= 10 && n_lnk < 100)
+	// 		ft_putstr(" ");
+	// 	ft_putstr(s);
+	// }
 }

@@ -57,6 +57,22 @@ int	count_blocks(t_path *p)
 	return (n_bl);
 }
 
+int get_max_n_lnk(t_path *p)
+{
+	unsigned int max;
+	int res;
+
+	max = 0;
+	while(p)
+	{
+		if (p->stat->st_nlink > max)
+			max = p->stat->st_nlink;
+		p = p->next;
+	}
+	res = ft_strlen(ft_itoa(max));
+	return (res);
+}
+
 t_path		*path_del(t_path *p)
 {
 	t_path	*tmp;
