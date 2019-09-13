@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 16:16:37 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 16:23:18 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	print_path(t_path *p, char *flags, int argc, int r)
 		{
 			if (!r)
 			{
-				if (!S_ISDIR(p->stat->st_mode))
+				if (!S_ISDIR(p->stat->st_mode) ||(S_ISDIR(p->stat->st_mode) && !argc))
 				{
 					printing(p, flags, max_lnk, max_size);
 					ft_putstr("\n");

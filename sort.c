@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/08/23 14:19:29 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 16:52:48 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,46 @@ int		is_less_sise(t_path *s1, t_path *s2, char c)
 
 	if (!c)
 		return (-1);
-	if (s1->stat->st_size <= s2->stat->st_size)
+	if (s1->stat->st_size >= s2->stat->st_size)
 		return (1);
 	return (0);
 }
 
+t_path *sort_f(t_path *p)
+{
+	t_path	*head;
+	t_path	*tmp;
+
+	head = p;
+	while (p->next)
+	{
+			if (!ft_strcmp(".", p->next->name))
+			{
+				tmp = p->next;
+				p->next = p->next->next;
+				tmp->next = head;
+				head = tmp;
+			}
+			if (!ft_strcmp("..", p->next->name))
+			{
+				tmp = p->next;
+				p->next = p->next->next;
+				if (!ft_strcmp(".", head->next->name))
+				{
+					tmp->next = head->next;
+					head->next = tmp;
+				}
+				else
+				{
+					tmp->next = head;
+					head = tmp;
+				}
+			}
+		p = p->next;
+	}
+
+	return (head);
+}
 int		is_less_time(t_path *s1, t_path *s2, char c)
 {
 	if (c == 'u')
@@ -91,7 +126,7 @@ t_path	*sort_path(t_path *path, char *flags)
 	if (ft_strrchr(flags, 'r'))
 		r = 1;
 	if (ft_strrchr(flags, 'f'))
-		res = path;
+		res = sort_f(path);
 	else if (ft_strrchr(flags, 'S') != NULL)
 	{
 		res = sort(path, is_less_sise, r, 'S');

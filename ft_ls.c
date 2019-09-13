@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 16:05:19 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 16:54:41 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 {
-	if ((ft_strcmp(".", path->name) || (!ft_strcmp(".", path->name)
+	if ((ft_strncmp(".", path->name, 1) || (!ft_strcmp(".", path->name)
 		&& ft_strrchr(flags, 'R'))))
 	{
 		if (r)
