@@ -21,8 +21,11 @@ void ft_error(const char *s, int n)
 
 void	swap_elem(t_path *p1, t_path *p2)
 {
-	char		*t_name;
-	struct stat *t_stat;
+	char			*t_name;
+	struct stat 	*t_stat;
+	char			*t_all_p;
+	char			t_attr;
+	char			*t_link;
 
 	t_name = p1->name;
 	p1->name = p2->name;
@@ -30,6 +33,15 @@ void	swap_elem(t_path *p1, t_path *p2)
 	t_stat = p1->stat;
 	p1->stat = p2->stat;
 	p2->stat = t_stat;
+	t_all_p = p1->all_p;
+	p1->all_p = p2->all_p;
+	p2->all_p = t_all_p;
+	t_attr = p1->attr;
+	p1->attr = p2->attr;
+	p2->attr = t_attr;
+	t_link = p1->link;
+	p1->link = p2->link;
+	p2->link = t_link;
 }
 
 int	count_blocks(t_path *p)

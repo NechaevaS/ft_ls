@@ -22,7 +22,8 @@ OBJS = main.o\
 			print_column.o\
 			libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror -g -O0 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -O0 
+#-fsanitize=address
 
 all : $(NAME)
 

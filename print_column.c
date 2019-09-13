@@ -73,7 +73,7 @@ void	print_row(t_col col, t_path **arr, int start, char *flags)
 
 	i = 0;
 	cur = start;
-	while (i < col.cols && arr[cur])
+	while (i < col.cols && cur < col.n_elem)
 	{
 		print_name(arr[cur], flags);
 		wsps = col.blk_l - ft_strlen(arr[cur]->name);

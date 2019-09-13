@@ -15,14 +15,17 @@
 void	add_link_and_attr(t_path *elem)
 {
 	ssize_t	buflen;
-	acl_t	acl;
-
+//	acl_t	acl;
+#ifdef __APPLE__
 	buflen = listxattr(elem->all_p, NULL, 0, XATTR_NOFOLLOW);
-	acl = acl_get_link_np(elem->all_p, ACL_TYPE_EXTENDED);
+#else
+	buflen = listxattr(elem->all_p, NULL, 0);
+#endif
+//	acl = acl_get_link_np(elem->all_p, ACL_TYPE_EXTENDED);
 	if (buflen > 0)
 		elem->attr = '@';
-	else if (acl)
-		elem->attr = '+';
+//	else if (acl)
+//		elem->attr = '+';
 	else
 		elem->attr = 0;
 

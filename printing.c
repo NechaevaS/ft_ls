@@ -14,7 +14,7 @@
 
 void	print_name(t_path *path, char *flags)
 {
-	if (!ft_strrchr(flags, 'f'))
+	if (!ft_strrchr(flags, 'f') && !isatty(fileno(stdout)))
 	{
 		if (S_ISDIR(path->stat->st_mode))
 			ft_putstr(COL_DIR);
@@ -35,7 +35,7 @@ void	print_name(t_path *path, char *flags)
 
 void	print_path(t_path *p, char *flags, int argc)
 {
-	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l'))
+	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l') && isatty(fileno(stdout)))
 		print_column(p, flags, argc);
 	else
 	{
@@ -43,6 +43,8 @@ void	print_path(t_path *p, char *flags, int argc)
 		{
 			printing(p, flags);
 			p = p->next;
+			if (!isatty(fileno(stdout)))
+				ft_putstr("\n");
 		}
 		if (!ft_strrchr(flags, 'l'))
 			ft_putstr("\n");
@@ -69,11 +71,11 @@ void	printing_l(t_path *path, char *flags)
 	print_time(path);
 	ft_putstr(" ");
 	print_name(path, flags);
-	// if (S_ISLNK(path->stat->st_mode))
-	// {
+	if (S_ISLNK(path->stat->st_mode))
+	{
 		ft_putstr(" -> ");
 		ft_putstr(path->link);
-//	}
+	}
 	ft_putstr("\n");
 }
 
