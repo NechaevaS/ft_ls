@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/12 14:45:33 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 13:34:09 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,56 +86,46 @@ void	print_time(t_path *path)
 	}
 }
 
-void	print_size(t_path *path)
+void	print_size(t_path *path, int max_size)
 {
 	char	*s;
 	int		len;
-	int		i;
 
 	s = ft_itoa(path->stat->st_size);
 	len = ft_strlen(s);
-	i = 5 - len;
-	if (len == 5)
+	while (max_size != len)
 	{
-		ft_putstr(s);
-		return ;
+		ft_putstr(" ");
+		max_size--;
 	}
-	while (i >= 0)
-	{
-		if ((i + len) == len)
-			ft_putstr(s);
-		else
-			ft_putstr(" ");
-		i--;
-	}
+	ft_putstr(s);
+	// i = 5 - len;
+	// if (len == 5)
+	// {
+	// 	ft_putstr(s);
+	// 	return ;
+	// }
+	// while (i >= 0)
+	// {
+	// 	if ((i + len) == len)
+	// 		ft_putstr(s);
+	// 	else
+	// 		ft_putstr(" ");
+	// 	i--;
+	// }
 }
 
 void	print_num_lnk(t_path *path, int max_lnk)
 {
-	int	n_lnk;
-	char *s;
+	int		n_lnk;
+	char	*s;
 
 	n_lnk = path->stat->st_nlink;
 	s = ft_itoa(n_lnk);
-	while(max_lnk > (int)ft_strlen(s))
+	while (max_lnk > (int)ft_strlen(s))
 	{
 		ft_putstr(" ");
 		max_lnk--;
 	}
 	ft_putstr(s);
-	// if (n_lnk < 100)
-	// {
-
-	// 	if (n_lnk < 10 && n_lnk >= 0)
-	// 		ft_putstr(" ");
-	// 	ft_putstr(s);
-	// }
-	// else
-	// {
-	// 	if (n_lnk < 10 && n_lnk >= 0)
-	// 		ft_putstr("  ");
-	// 	if (n_lnk >= 10 && n_lnk < 100)
-	// 		ft_putstr(" ");
-	// 	ft_putstr(s);
-	// }
 }

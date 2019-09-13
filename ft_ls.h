@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/12 15:25:36 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 13:33:29 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <errno.h>
 # include "libft/libft.h"
 
-# define FLAGS		("laARrtucf1")
+# define FLAGS		("laARSrtucf1")
 # define SIX_MONTHS	(15778800)
 
 # define COL_IFO	"\x1b[33m"
@@ -68,15 +68,15 @@ void				ft_ls(t_path *path, char *flags, int argc);
 t_path 				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
 t_path				*path_del(t_path *p);
-int					get_max_n_lnk(t_path *p);
+int					get_max_n(t_path *p, int n);
 void				print_column(t_path *p, char *flags, int argc);
 void				print_type(t_path *path);
 void				print_permission(t_path path);
 void				print_time(t_path *path);
-void				print_size(t_path *path);
+void				print_size(t_path *path, int max_size);
 void				print_num_lnk(t_path *path, int max_lnk);
-void				print_name(t_path *path, char *flags);
+void				print_name(t_path *path);
 void				print_path(t_path *p, char *flags, int srt);
-void				printing_l(t_path *path, char *flags, int max_lnk);
-void				printing(t_path *path, char *flags, int max_lnk);
+void				printing_l(t_path *path, int max_lnk, int max_size);
+void				printing(t_path *path, char *flags, int max_lnk, int max_size);
 #endif

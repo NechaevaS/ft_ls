@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/12 16:04:45 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 14:17:25 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 {
 	if ((ft_strcmp(".", path->name) || (!ft_strcmp(".", path->name)
-		&& ft_strrchr(flags, 'R'))) && r)
+		&& ft_strrchr(flags, 'R'))))
 	{
-		ft_putstr("\n");
+		if (r)
+			ft_putstr("\n");
 		ft_putstr(path->name);
 		ft_putstr(":\n");
 	}
@@ -90,7 +91,7 @@ void	ft_ls(t_path *path, char *flags, int argc)
 		else
 		{
 			if (!argc)
-				printing(tmp, flags, 0);
+				printing(tmp, flags, 0, 0);
 		}
 		tmp = tmp->next;
 		r++;

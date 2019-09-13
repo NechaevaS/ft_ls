@@ -12,7 +12,7 @@ void ft_error(const char *s, int n)
 	}
 	if (n == 2)
 	{
-		ft_putstr(" invalid option -");
+		ft_putstr(" illegal option -");
 		ft_putstr(s);
 		write(1, "\n", 1);
 		ft_putstr("usage: ft_ls [laASRrtucf] [file ...]\n");
@@ -57,19 +57,26 @@ int	count_blocks(t_path *p)
 	return (n_bl);
 }
 
-int get_max_n_lnk(t_path *p)
+int	get_max_n(t_path *p, int n)
 {
-	unsigned int max;
-	int res;
+	unsigned int	max_lnk;
+	unsigned int	max_size;
+	int				res;
 
-	max = 0;
+	max_lnk = 0;
+	max_size = 0;
 	while(p)
 	{
-		if (p->stat->st_nlink > max)
-			max = p->stat->st_nlink;
+		if (p->stat->st_nlink > max_lnk)
+			max_lnk = p->stat->st_nlink;
+		if (p->stat->st_size > max_size)
+			max_size = p->stat->st_size;
 		p = p->next;
 	}
-	res = ft_strlen(ft_itoa(max));
+	if (n == 1)
+		res = ft_strlen(ft_itoa(max_lnk));
+	if (n == 2)
+		res = ft_strlen(ft_itoa(max_size));
 	return (res);
 }
 

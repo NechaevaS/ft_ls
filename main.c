@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/12 14:54:54 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/13 13:53:52 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ int		main(int argc, char **argv)
 		}
 		else
 		{
-			if (!ft_strrchr(flags, 'f'))
-				path = sort_path(path, flags);
+			path = sort_path(path, flags);
 			ft_ls(path, flags, 1);
 		}
 	}
