@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 15:56:40 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/16 13:00:14 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ typedef struct 		s_path
 
 typedef struct
 {
+	int				max_lnk;
+	int				max_size;
+}					t_help;
+
+
+typedef struct
+{
 	int				n_elem;
 	int				blk_l;
 	int				cols;
@@ -63,6 +70,7 @@ void				ft_error(const char *s, int n);
 t_path				*add_to_path(char *old_p,t_path *path, char *curr);
 void				print_path_name(t_path *path);
 t_path				*sort_path(t_path *path, char *flags);
+t_path				*sort_f(t_path *p);
 void				swap_elem(t_path *p1, t_path *p2);
 void				ft_ls(t_path *path, char *flags, int argc);
 t_path 				*create_new_path(char *path, char *flags);

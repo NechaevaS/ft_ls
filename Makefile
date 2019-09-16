@@ -6,7 +6,7 @@
 #    By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/07 14:47:44 by snechaev          #+#    #+#              #
-#    Updated: 2019/09/13 14:07:43 by snechaev         ###   ########.fr        #
+#    Updated: 2019/09/16 10:01:47 by snechaev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,11 @@ OBJS = main.o\
 			printing.o\
 			ft_ls.o\
 			print_column.o\
+			sort_utils.o\
 			libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror -g -O0 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -O0
+#-fsanitize=address
 
 all : $(NAME)
 

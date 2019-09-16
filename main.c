@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 13:53:52 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/16 10:05:58 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int		main(int argc, char **argv)
 			ft_ls(path, flags, 1);
 		}
 	}
+	//system("leaks ft_ls");
 	return (0);
 }
