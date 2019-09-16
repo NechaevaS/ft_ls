@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snechaev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 13:37:24 by snechaev          #+#    #+#             */
-/*   Updated: 2019/06/11 13:40:24 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/16 13:33:32 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	is_base(char c, int base)
 {
-	char base1[17] = "0123456789abcdef";
-	char base2[17] = "0123456789ABCDEF";
+	const char	base1[17] = "0123456789abcdef";
+	const char	base2[17] = "0123456789ABCDEF";
 	int i;
-	
+
 	i = 0;
 	while (i < base)
 	{
@@ -26,7 +26,7 @@ int	is_base(char c, int base)
 	return (0);
 }
 
-int	is_value(char c)
+int		is_value(char c)
 {
 	if (c >= '0' && c <= '9')
 		return (c - '0');
@@ -37,10 +37,10 @@ int	is_value(char c)
 	return (0);
 }
 
-int	ft_atoi_base(const char *str, int str_base)
+int		ft_atoi_base(const char *str, int str_base)
 {
-	int atoi;
-	int sign;
+	int	atoi;
+	int	sign;
 
 	atoi = 0;
 	sign = 1;
@@ -59,8 +59,7 @@ int	ft_atoi_base(const char *str, int str_base)
 	while (*str != '\0' && is_base(*str, str_base))
 	{
 		atoi = (atoi * str_base) + is_value(*str);
-	   	str++;	
+		str++;
 	}
 	return (atoi * sign);
 }
-
