@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/16 13:00:14 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/16 14:27:07 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void				ft_ls(t_path *path, char *flags, int argc);
 t_path 				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
 t_path				*path_del(t_path *p);
+void				del_all_path(t_path *path);
 int					get_max_n(t_path *p, int n);
 void				print_column(t_path *p, char *flags, int argc);
 void				print_type(t_path *path);
