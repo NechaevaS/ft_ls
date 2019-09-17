@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/17 15:14:32 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/17 16:27:34 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 	}
 }
 
-void	ft_ls_rec(t_path *path, char *flags, int *r)
+void	ft_ls_rec(t_path *path, char *flags, int *pr, int argc)
 {
 	t_path	*n_p;
 	char	*tmp;
 
 	if (!(n_p = create_new_path(path->name, flags)))
 		return ;
-	print_folder_name(path, *r, flags, n_p);
-	print_path(n_p, flags, 0, r);
+	print_folder_name(path, *pr, flags, n_p);
+	print_path(n_p, flags, argc, pr);
 	tmp = path->name;
 	while (n_p && ft_strrchr(flags, 'R'))
 	{
@@ -52,22 +52,20 @@ void	ft_ls_rec(t_path *path, char *flags, int *r)
 				path->name = ft_strjoin(path->name, n_p->name);
 			else
 				path->name = ft_strjoin(ft_strjoin(path->name, "/"), n_p->name);
-			(*r)++;
-			ft_ls_rec(path, flags, r);
+			ft_ls_rec(path, flags, pr, argc);
 			path->name = tmp;
 		}
 		n_p = path_del(n_p);
 	}
 }
 
-void	print_argc(t_path *path, char *flags, int argc, int *r)
+void	print_argc(t_path *path, char *flags, int argc, int *pr)
 {
 	if (!path)
 		return ;
 	if (argc && ft_strncmp("../", path->name, 3))
 	{
-		print_path(path, flags, argc, r);
-		(*r)++;
+		print_path(path, flags, argc, pr);
 	}
 }
 
@@ -78,7 +76,6 @@ void	ft_ls(t_path *path, char *flags, int argc)
 
 	if (!path)
 		return ;
-	r = 0;
 	print_argc(path, flags, argc, &r);
 	f = 0;
 	while (path)
@@ -87,9 +84,10 @@ void	ft_ls(t_path *path, char *flags, int argc)
 		{
 			if (f == 0 && !path->next)
 				r = 0;
-			if ((f == 0 && !argc))
+			if (f == 0 && argc > 3)
 				r = 2;
-			ft_ls_rec(path, flags, &r);
+			ft_ls_rec(path, flags, &r, argc);
+			f++;
 			f++;
 		}
 		if (!argc && !S_ISDIR(path->stat->st_mode))
