@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/16 13:00:51 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/17 15:13:55 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,21 @@ void	print_path(t_path *p, char *flags, int argc, int r)
 	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l')
 		&& isatty(fileno(stdout)))
 		print_column(p, flags, argc);
-	while (p)
+	else
 	{
-		if (!r)
+		while (p)
 		{
-			if (!S_ISDIR(p->stat->st_mode)
-				|| (S_ISDIR(p->stat->st_mode) && !argc))
+			if (!r)
 			{
-				printing(p, flags, max.max_lnk, max.max_size);
-				ft_putstr("\n");
+				if (!S_ISDIR(p->stat->st_mode)
+					|| (S_ISDIR(p->stat->st_mode) && !argc))
+					printing(p, flags, max.max_lnk, max.max_size);
 			}
-		}
-		else
-		{
-			printing(p, flags, max.max_lnk, max.max_size);
+			else
+				printing(p, flags, max.max_lnk, max.max_size);
 			ft_putstr("\n");
+			p = p->next;
 		}
-		p = p->next;
 	}
 }
 
@@ -91,13 +89,8 @@ void	printing_l(t_path *path, int max_lnk, int max_size)
 
 void	printing(t_path *path, char *flags, int max_lnk, int max_size)
 {
-
 	if (ft_strrchr(flags, 'l'))
-	{
 		printing_l(path, max_lnk, max_size);
-	}
 	else
-	{
 		print_name(path);
-	}
 }

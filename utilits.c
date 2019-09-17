@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 08:49:02 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/16 08:50:53 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:30:22 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@ void	ft_error(const char *s, int n)
 		ft_putstr(s);
 		write(1, ": ", 2);
 		ft_putstr("No such file or directory\n");
+		exit(0);
 	}
 	if (n == 2)
 	{
-		ft_putstr(" illegal option -");
+		ft_putstr(" illegal option -- ");
+		s++;
 		ft_putstr(s);
 		write(1, "\n", 1);
-		ft_putstr("usage: ft_ls [laASRrtucf] [file ...]\n");
+		ft_putstr("usage: ft_ls [-laASRrtucf] [file ...]\n");
+		exit(0);
 	}
 }
 

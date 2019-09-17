@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 15:03:42 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 12:31:53 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:43:45 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,16 @@
 void	add_link_and_attr(t_path *elem)
 {
 	ssize_t	buflen;
-//	acl_t	acl;
+
 #ifdef __APPLE__
 	buflen = listxattr(elem->all_p, NULL, 0, XATTR_NOFOLLOW);
 #else
 	buflen = listxattr(elem->all_p, NULL, 0);
 #endif
-//	acl = acl_get_link_np(elem->all_p, ACL_TYPE_EXTENDED);
 	if (buflen > 0)
 		elem->attr = '@';
-//	else if (acl)
-//		elem->attr = '+';
 	else
 		elem->attr = 0;
-
 	if (S_ISLNK(elem->stat->st_mode))
 		readlink(elem->all_p, elem->link, 1000);
 }
@@ -64,10 +60,7 @@ t_path	*add_to_path(char *old_p, t_path *path, char *curr)
 		elem->all_p = elem->name;
 	}
 	if (lstat(elem->all_p, elem->stat) < 0)
-	{
 		ft_error(elem->all_p, 1);
-		exit (0);
-	}
 	add_link_and_attr(elem);
 	if (!path)
 		return (elem);
@@ -103,7 +96,6 @@ t_path	*create_new_path(char *path, char *flags)
 			continue;
 		new_path = add_to_path(path, new_path, f->d_name);
 	}
-//	if (ft_strrchr(flags, 'f'))
-		new_path = sort_path(new_path, flags);
+	new_path = sort_path(new_path, flags);
 	return (new_path);
 }

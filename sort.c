@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/16 11:03:35 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:26:35 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		is_less_name(t_path *s1, t_path *s2, char c)
 		return (-1);
 	c1 = ft_strdup(s1->name);
 	c2 = ft_strdup(s2->name);
-
 	if (ft_strcmp(c1, c2) <= 0)
 		return (1);
 	free(c1);

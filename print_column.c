@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:15:06 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 15:59:09 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/17 14:20:25 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int		path_len(t_path *p, int argc)
 	return (len);
 }
 
-t_path **fill_arr(t_path *p, int argc, t_col col)
+t_path	**fill_arr(t_path *p, int argc, t_col col)
 {
-	int	i;
-	t_path **arr;
+	int		i;
+	t_path	**arr;
 
 	i = 0;
 	arr = (t_path **)malloc(sizeof(t_path *) * col.n_elem);
