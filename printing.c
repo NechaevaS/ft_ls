@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/18 16:51:12 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/19 10:01:02 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	print_name(t_path *path)
 			ft_putstr(COL_REG);
 		if (S_ISBLK(path->stat->st_mode))
 			ft_putstr(COL_BLK);
+		if (S_ISCHR(path->stat->st_mode))
+			ft_putstr(COL_CHR);
 		if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
 			ft_putstr(COL_EXE);
 		ft_putstr(path->name);

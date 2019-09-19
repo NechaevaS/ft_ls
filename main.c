@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/18 16:39:29 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/19 11:03:31 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 		path = add_to_path(0, path, argv[i - 1]);
 	return (path);
 }
+
 t_help	*init_max()
 {
 	t_help	*max;

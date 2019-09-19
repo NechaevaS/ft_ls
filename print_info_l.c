@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/18 17:02:18 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/19 09:48:18 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,15 @@ void	print_size(t_path *path, t_help *max)
 {
 	char	*s;
 	int		len;
+	int		ws;
 
 	s = ft_itoa(path->stat->st_size);
 	len = ft_strlen(s);
-	while (max->max_size != len)
+	ws = max->max_size - len;
+	while (ws > 0)
 	{
 		ft_putstr(" ");
-		max->max_size--;
+		ws--;
 	}
 	ft_putstr(s);
 }
@@ -118,13 +120,15 @@ void	print_num_lnk(t_path *path, t_help *max)
 {
 	int		n_lnk;
 	char	*s;
+	int		ws;
 
-	n_lnk = path->stat->st_nlink;
-	s = ft_itoa(n_lnk);
-	while (max->max_lnk > (int)ft_strlen(s))
+	s = ft_itoa(path->stat->st_nlink);
+	n_lnk = ft_strlen(s);
+	ws = max->max_lnk - n_lnk;
+	while (ws > 0)
 	{
 		ft_putstr(" ");
-		max->max_lnk--;
+		ws--;
 	}
 	ft_putstr(s);
 }
