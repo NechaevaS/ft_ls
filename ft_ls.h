@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:03:53 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/19 11:38:10 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <sys/types.h>
 //# include <uuid/uuid.h>
 # include <sys/ioctl.h>
-//# include <sys/acl.h>
 # include <pwd.h>
 # include <grp.h>
 # include <time.h>
@@ -41,16 +40,6 @@
 # define COL_EXE	"\x1b[0;31m"
 # define COL_CLR	"\x1b[0m"
 
-typedef struct 		s_path
-{
-	char			*all_p;
-	char			attr;
-	char			*link;
-	struct stat		*stat;
-	char			*name;
-	struct s_path	*next;
-}					t_path;
-
 typedef struct
 {
 	int				max_lnk;
@@ -60,6 +49,16 @@ typedef struct
 
 }					t_help;
 
+typedef struct 		s_path
+{
+	char			*all_p;
+	char			attr;
+	char			*link;
+	struct stat		*stat;
+	char			*name;
+	struct s_path	*next;
+	t_help			*max;
+}					t_path;
 
 typedef struct
 {
@@ -71,25 +70,26 @@ typedef struct
 
 void				ft_error(const char *s, int n);
 t_path				*add_to_path(char *old_p,t_path *path, char *curr);
+t_help				*init_max();
 void				print_path_name(t_path *path);
 t_path				*sort_path(t_path *path, char *flags);
 t_path				*sort_f(t_path *p);
 void				swap_elem(t_path *p1, t_path *p2);
-void				ft_ls(t_path *path, char *flags, int argc, t_help *max);
+void				ft_ls(t_path *path, char *flags, int argc);
 t_path 				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
 t_path				*path_del(t_path *p);
-void				get_max_n(t_path *p, t_help *max);
-void				print_column(t_path *p, char *flags, int argc, t_help *max);
+void				get_max_n(t_path *p);
+void				print_column(t_path *p, char *flags, int argc);
 void				print_type(t_path *path);
-void				print_gr_name(t_path *path, t_help *max);
-void				print_ow_name(t_path *path, t_help *max);
+void				print_gr_name(t_path *path);
+void				print_ow_name(t_path *path);
 void				print_permission(t_path path);
 void				print_time(t_path *path, char *flags);
-void				print_size(t_path *path, t_help *max);
-void				print_num_lnk(t_path *path, t_help *max);
+void				print_size(t_path *path);
+void				print_num_lnk(t_path *path);
 void				print_name(t_path *path);
-void				print_path(t_path *p, char *flags, int srt, int r, t_help *max);
-void				printing_l(t_path *path, char *flags, t_help *max);
-void				printing(t_path *path, char *flags, t_help *max);
+void				print_path(t_path *p, char *flags, int srt, int r);
+void				printing_l(t_path *path, char *flags);
+void				printing(t_path *path, char *flags);
 #endif

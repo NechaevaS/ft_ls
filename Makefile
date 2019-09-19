@@ -6,7 +6,7 @@
 #    By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/07 14:47:44 by snechaev          #+#    #+#              #
-#    Updated: 2019/09/18 11:42:19 by snechaev         ###   ########.fr        #
+#    Updated: 2019/09/19 11:22:41 by snechaev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@ NAME = ft_ls
 OBJS = main.o\
        		read.o\
 			utilits.o\
+			path_utils.o\
 			sort.o\
 			print_info_l.o\
+			print_info_l2.o\
 			printing.o\
 			ft_ls.o\
 			print_column.o\

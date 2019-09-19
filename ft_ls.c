@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/18 16:49:08 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/19 11:08:46 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 {
-	if (ft_strncmp(".", path->name, 1) || ((!ft_strncmp("./", path->name, 2) || !ft_strncmp("../", path->name, 3))
+	if (ft_strncmp(".", path->name, 1) || ((!ft_strncmp("./", path->name, 2)
+		|| !ft_strncmp("../", path->name, 3))
 		&& ft_strrchr(flags, 'R')))
 	{
 		if (r > 1)
@@ -33,7 +34,7 @@ void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 	}
 }
 
-void	ft_ls_rec(t_path *path, char *flags, int *r, t_help *max)
+void	ft_ls_rec(t_path *path, char *flags, int *r)
 {
 	t_path	*n_p;
 	char	*tmp;
@@ -41,7 +42,7 @@ void	ft_ls_rec(t_path *path, char *flags, int *r, t_help *max)
 	if (!(n_p = create_new_path(path->name, flags)))
 		return ;
 	print_folder_name(path, *r, flags, n_p);
-	print_path(n_p, flags, 0, *r, max);
+	print_path(n_p, flags, 0, *r);
 	(*r)++;
 	tmp = path->name;
 	while (n_p && ft_strrchr(flags, 'R'))
@@ -54,25 +55,25 @@ void	ft_ls_rec(t_path *path, char *flags, int *r, t_help *max)
 			else
 				path->name = ft_strjoin(ft_strjoin(path->name, "/"), n_p->name);
 			(*r)++;
-			ft_ls_rec(path, flags, r, max);
+			ft_ls_rec(path, flags, r);
 			path->name = tmp;
 		}
 		n_p = path_del(n_p);
 	}
 }
 
-void	print_argc(t_path *path, char *flags, int argc, int *r, t_help *max)
+void	print_argc(t_path *path, char *flags, int argc, int *r)
 {
 	if (!path)
 		return ;
 	if (argc && ft_strncmp("../", path->name, 3))
 	{
-		print_path(path, flags, argc, 0, max);
+		print_path(path, flags, argc, 0);
 		(*r)++;
 	}
 }
 
-void	ft_ls(t_path *path, char *flags, int argc, t_help *max)
+void	ft_ls(t_path *path, char *flags, int argc)
 {
 	int		r;
 	int		f;
@@ -80,7 +81,7 @@ void	ft_ls(t_path *path, char *flags, int argc, t_help *max)
 	if (!path)
 		return ;
 	r = 0;
-	print_argc(path, flags, argc, &r, max);
+	print_argc(path, flags, argc, &r);
 	f = 0;
 	while (path)
 	{
@@ -90,11 +91,11 @@ void	ft_ls(t_path *path, char *flags, int argc, t_help *max)
 				r = 0;
 			if (f == 0 && !argc)
 				r = 2;
-			ft_ls_rec(path, flags, &r, max);
+			ft_ls_rec(path, flags, &r);
 			f++;
 		}
 		if (!argc && !S_ISDIR(path->stat->st_mode))
-			printing(path, flags, max);
+			printing(path, flags);
 		path = path->next;
 		r++;
 	}

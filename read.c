@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 15:03:42 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:04:07 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/19 11:07:26 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_path	*init_elem(char *curr)
 	elem->name = ft_strdup(curr);
 	elem->next = NULL;
 	elem->stat = (struct stat *)malloc(sizeof(struct stat));
+	elem->max = init_max();
 	return (elem);
 }
 

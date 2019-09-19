@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 08:49:02 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/18 16:47:32 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/19 11:36:04 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,43 +47,28 @@ int		count_blocks(t_path *p)
 }
 
 
-void	get_max_n(t_path *p, t_help *max)
+void	get_max_n(t_path *p)
 {
 	int		gr_len;
 	int 	ow_len;
+	int 	lnk_len;
+	int 	size_len;
 
 	while (p)
 	{
 		gr_len = ft_strlen(getgrgid(p->stat->st_gid)->gr_name);
 		ow_len = ft_strlen(getpwuid(p->stat->st_uid)->pw_name);
-		if (p->stat->st_nlink > max->max_lnk)
-			max->max_lnk = p->stat->st_nlink;
-		if (p->stat->st_size >  max->max_size)
-			max->max_size = p->stat->st_size;
-		if ( gr_len >  max->max_group_name)
-			max->max_group_name = gr_len;
-		if (ow_len >  max->max_own_name)
-			max->max_own_name = ow_len;
+		lnk_len = ft_strlen(ft_itoa(p->stat->st_nlink));
+		size_len = ft_strlen(ft_itoa(p->stat->st_size));
+		if (lnk_len > p->max->max_lnk)
+			p->max->max_lnk = lnk_len;
+		if (size_len > p->max->max_size)
+			p->max->max_size = size_len;
+		if ( gr_len > p->max->max_group_name)
+			p->max->max_group_name = gr_len;
+		if (ow_len > p->max->max_own_name)
+			p->max->max_own_name = ow_len;
 		p = p->next;
 	}
-	max->max_lnk = ft_strlen(ft_itoa(max->max_lnk));
-	max->max_size = ft_strlen(ft_itoa(max->max_size));
 }
 
-t_path	*path_del(t_path *p)
-{
-	t_path	*tmp;
-
-	if (!p)
-		tmp = NULL;
-	else
-		tmp = p->next;
-	if (p || p->next)
-	{
-		free(p->name);
-		free(p->stat);
-		free(p);
-		p = NULL;
-	}
-	return (tmp);
-}

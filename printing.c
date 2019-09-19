@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 10:01:02 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/19 11:25:21 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	print_name(t_path *path)
 			ft_putstr(COL_REG);
 		if (S_ISBLK(path->stat->st_mode))
 			ft_putstr(COL_BLK);
-		if (S_ISCHR(path->stat->st_mode))
-			ft_putstr(COL_CHR);
 		if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
 			ft_putstr(COL_EXE);
 		ft_putstr(path->name);
@@ -35,12 +33,12 @@ void	print_name(t_path *path)
 		ft_putstr(path->name);
 }
 
-void	print_path(t_path *p, char *flags, int argc, int r, t_help	*max)
+void	print_path(t_path *p, char *flags, int argc, int r)
 {
-	get_max_n(p, max);
+	get_max_n(p);
 	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l')
 		&& isatty(fileno(stdout)))
-		print_column(p, flags, argc, max);
+		print_column(p, flags, argc);
 	else
 	{
 		while (p)
@@ -50,13 +48,13 @@ void	print_path(t_path *p, char *flags, int argc, int r, t_help	*max)
 				if (!S_ISDIR(p->stat->st_mode)
 					|| (S_ISDIR(p->stat->st_mode) && !argc))
 				{
-					printing(p, flags, max);
+					printing(p, flags);
 					ft_putstr("\n");
 				}
 			}
 			else
 			{
-				printing(p, flags, max);
+				printing(p, flags);
 				ft_putstr("\n");
 			}
 			p = p->next;
@@ -66,7 +64,7 @@ void	print_path(t_path *p, char *flags, int argc, int r, t_help	*max)
 		ft_putstr("\n");
 }
 
-void	printing_l(t_path *path, char *flags, t_help *max)
+void	printing_l(t_path *path, char *flags)
 {
 	print_type(path);
 	print_permission(*path);
@@ -75,13 +73,13 @@ void	printing_l(t_path *path, char *flags, t_help *max)
 	else
 		ft_putstr(" ");
 	ft_putstr(" ");
-	print_num_lnk(path, max);
+	print_num_lnk(path);
 	ft_putstr(" ");
-	print_ow_name(path, max);
+	print_ow_name(path);
 	ft_putstr("  ");
-	print_gr_name(path, max);
+	print_gr_name(path);
 	ft_putstr("  ");
-	print_size(path, max);
+	print_size(path);
 	ft_putstr(" ");
 	print_time(path, flags);
 	ft_putstr(" ");
@@ -93,11 +91,11 @@ void	printing_l(t_path *path, char *flags, t_help *max)
 	}
 }
 
-void	printing(t_path *path, char *flags, t_help	*max)
+void	printing(t_path *path, char *flags)
 {
 	if (ft_strrchr(flags, 'l'))
 	{
-		printing_l(path, flags, max);
+		printing_l(path, flags);
 	}
 	else
 	{
