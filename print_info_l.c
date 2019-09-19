@@ -114,5 +114,6 @@ void	print_size(t_path *path)
 		ws--;
 	}
 	ft_putstr(s);
+	free(s);
 }
 

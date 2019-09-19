@@ -124,4 +124,5 @@ void	print_column(t_path *p, char *flags, int argc)
 		print_row(col, arr, i);
 		i++;
 	}
+	free(arr);
 }

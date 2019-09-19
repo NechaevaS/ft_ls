@@ -12,7 +12,16 @@
 
 #include "ft_ls.h"
 
-t_path	*path_del(t_path *p)
+void	path_del(t_path *p)
+{
+	while (p)
+	{
+		elem_del(p);
+		p = p->next;
+	}
+}
+
+t_path	*elem_del(t_path *p)
 {
 	t_path	*tmp;
 
@@ -22,9 +31,10 @@ t_path	*path_del(t_path *p)
 		tmp = p->next;
 	if (p || p->next)
 	{
-		free(p->name);
+		ft_strdel(&(p)->name);
 		free(p->stat);
         free(p->max);
+		ft_strdel(&(p)->link);
 		free(p);
 		p = NULL;
 	}

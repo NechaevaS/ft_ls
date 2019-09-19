@@ -14,18 +14,11 @@
 
 int		is_less_name(t_path *s1, t_path *s2, char c)
 {
-	char	*c1;
-	char	*c2;
-
 	if (!c)
 		return (-1);
-	c1 = ft_strdup(s1->name);
-	c2 = ft_strdup(s2->name);
 
-	if (ft_strcmp(c1, c2) <= 0)
+	if (ft_strcmp(s1->name, s2->name) <= 0)
 		return (1);
-	free(c1);
-	free(c2);
 	return (0);
 }
 
@@ -45,36 +38,70 @@ int		is_less_time(t_path *s1, t_path *s2, char c)
 {
 	if (c == 'u')
 	{
-		if ((s1->stat->st_atimespec.tv_sec > s2->stat->st_atimespec.tv_sec)
-			|| (s1->stat->st_atimespec.tv_sec == s2->stat->st_atimespec.tv_sec
-			&& s1->stat->st_atimespec.tv_nsec > s2->stat->st_atimespec.tv_nsec)
-			|| (s1->stat->st_atimespec.tv_sec == s2->stat->st_atimespec.tv_sec
-			&& s1->stat->st_atimespec.tv_nsec == s2->stat->st_atimespec.tv_nsec
-			&& ft_strcmp(s1->name, s2->name) < 0))
+		if ((s1->stat->st_atime > s2->stat->st_atime))
+			// || (s1->stat->st_atime.tv_sec == s2->stat->st_atime.tv_sec
+			// && s1->stat->st_atime.tv_nsec > s2->stat->st_atime.tv_nsec)
+			// || (s1->stat->st_atime.tv_sec == s2->stat->st_atime.tv_sec
+			// && s1->stat->st_atime.tv_nsec == s2->stat->st_atime.tv_nsec
+			// && ft_strcmp(s1->name, s2->name) < 0))
 			return (1);
 	}
 	if (c == 'c')
 	{
-		if ((s1->stat->st_ctimespec.tv_sec > s2->stat->st_ctimespec.tv_sec)
-			|| (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
-			&& s1->stat->st_ctimespec.tv_nsec > s2->stat->st_ctimespec.tv_nsec)
-			|| (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
-			&& s1->stat->st_ctimespec.tv_nsec == s2->stat->st_ctimespec.tv_nsec
-			&& ft_strcmp(s1->name, s2->name) <= 0))
+		if ((s1->stat->st_ctime > s2->stat->st_ctime))
+			// || (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
+			// && s1->stat->st_ctimespec.tv_nsec > s2->stat->st_ctimespec.tv_nsec)
+			// || (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
+			// && s1->stat->st_ctimespec.tv_nsec == s2->stat->st_ctimespec.tv_nsec
+			// && ft_strcmp(s1->name, s2->name) <= 0))
 			return (1);
 	}
 	if (c == 'm')
 	{
-		if ((s1->stat->st_mtimespec.tv_sec > s2->stat->st_mtimespec.tv_sec)
-			|| (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
-			&& s1->stat->st_mtimespec.tv_nsec > s2->stat->st_mtimespec.tv_nsec)
-			|| (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
-			&& s1->stat->st_mtimespec.tv_nsec == s2->stat->st_mtimespec.tv_nsec
-			&& ft_strcmp(s1->name, s2->name) <= 0))
+		if ((s1->stat->st_mtime > s2->stat->st_mtime))
+			// || (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
+			// && s1->stat->st_mtimespec.tv_nsec > s2->stat->st_mtimespec.tv_nsec)
+			// || (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
+			// && s1->stat->st_mtimespec.tv_nsec == s2->stat->st_mtimespec.tv_nsec
+			// && ft_strcmp(s1->name, s2->name) <= 0))
 			return (1);
 	}
 	return (0);
 }
+// int		is_less_time(t_path *s1, t_path *s2, char c)
+// {
+// 	if (c == 'u')
+// 	{
+// 		if ((s1->stat->st_atimespec.tv_sec > s2->stat->st_atimespec.tv_sec)
+// 			|| (s1->stat->st_atimespec.tv_sec == s2->stat->st_atimespec.tv_sec
+// 			&& s1->stat->st_atimespec.tv_nsec > s2->stat->st_atimespec.tv_nsec)
+// 			|| (s1->stat->st_atimespec.tv_sec == s2->stat->st_atimespec.tv_sec
+// 			&& s1->stat->st_atimespec.tv_nsec == s2->stat->st_atimespec.tv_nsec
+// 			&& ft_strcmp(s1->name, s2->name) < 0))
+// 			return (1);
+// 	}
+// 	if (c == 'c')
+// 	{
+// 		if ((s1->stat->st_ctimespec.tv_sec > s2->stat->st_ctimespec.tv_sec)
+// 			|| (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
+// 			&& s1->stat->st_ctimespec.tv_nsec > s2->stat->st_ctimespec.tv_nsec)
+// 			|| (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
+// 			&& s1->stat->st_ctimespec.tv_nsec == s2->stat->st_ctimespec.tv_nsec
+// 			&& ft_strcmp(s1->name, s2->name) <= 0))
+// 			return (1);
+// 	}
+// 	if (c == 'm')
+// 	{
+// 		if ((s1->stat->st_mtimespec.tv_sec > s2->stat->st_mtimespec.tv_sec)
+// 			|| (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
+// 			&& s1->stat->st_mtimespec.tv_nsec > s2->stat->st_mtimespec.tv_nsec)
+// 			|| (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
+// 			&& s1->stat->st_mtimespec.tv_nsec == s2->stat->st_mtimespec.tv_nsec
+// 			&& ft_strcmp(s1->name, s2->name) <= 0))
+// 			return (1);
+// 	}
+// 	return (0);
+// }
 
 t_path	*sort(t_path *p, int (*cmp)(t_path *, t_path *, char), int r, char s)
 {

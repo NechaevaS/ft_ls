@@ -27,6 +27,7 @@ void	print_num_lnk(t_path *path)
 		ws--;
 	}
 	ft_putstr(s);
+	free(s);
 }
 
 void print_gr_name(t_path *path)

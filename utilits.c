@@ -51,6 +51,8 @@ void	get_max_n(t_path *p)
 {
 	int		gr_len;
 	int 	ow_len;
+	char	*lnk;
+	char	*size;
 	int 	lnk_len;
 	int 	size_len;
 
@@ -58,8 +60,10 @@ void	get_max_n(t_path *p)
 	{
 		gr_len = ft_strlen(getgrgid(p->stat->st_gid)->gr_name);
 		ow_len = ft_strlen(getpwuid(p->stat->st_uid)->pw_name);
-		lnk_len = ft_strlen(ft_itoa(p->stat->st_nlink));
-		size_len = ft_strlen(ft_itoa(p->stat->st_size));
+		lnk = ft_itoa(p->stat->st_nlink);
+		size = ft_itoa(p->stat->st_size);
+		lnk_len = ft_strlen(lnk);
+		size_len = ft_strlen(size);
 		if (lnk_len > p->max->max_lnk)
 			p->max->max_lnk = lnk_len;
 		if (size_len > p->max->max_size)
@@ -69,6 +73,9 @@ void	get_max_n(t_path *p)
 		if (ow_len > p->max->max_own_name)
 			p->max->max_own_name = ow_len;
 		p = p->next;
+		free(lnk);
+		free(size);
 	}
+
 }
 

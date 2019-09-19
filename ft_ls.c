@@ -58,8 +58,10 @@ void	ft_ls_rec(t_path *path, char *flags, int *r)
 			ft_ls_rec(path, flags, r);
 			path->name = tmp;
 		}
-		n_p = path_del(n_p);
+		n_p = elem_del(n_p);
 	}
+	free(n_p);
+	ft_strdel(&path->name);
 }
 
 void	print_argc(t_path *path, char *flags, int argc, int *r)
@@ -96,7 +98,7 @@ void	ft_ls(t_path *path, char *flags, int argc)
 		}
 		if (!argc && !S_ISDIR(path->stat->st_mode))
 			printing(path, flags);
-		path = path->next;
+		path = elem_del(path);
 		r++;
 	}
 }

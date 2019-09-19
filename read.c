@@ -37,8 +37,6 @@ t_path	*init_elem(char *curr)
 		return (NULL);
 	elem->link = (char *)malloc(1000);
 	ft_bzero((char *)elem->link, 1000);
-	elem->all_p = (char *)malloc(1000);
-	ft_bzero((char *)elem->all_p, 1000);
 	elem->name = ft_strdup(curr);
 	elem->next = NULL;
 	elem->stat = (struct stat *)malloc(sizeof(struct stat));
@@ -50,10 +48,15 @@ t_path	*add_to_path(char *old_p, t_path *path, char *curr)
 {
 	t_path	*current;
 	t_path	*elem;
+	char	*tmp1;
 
 	elem = init_elem(curr);
 	if (old_p)
-		elem->all_p = ft_strjoin(ft_strjoin(old_p, "/"), elem->name);
+	{
+		tmp1 = ft_strjoin(old_p, "/");
+		elem->all_p = ft_strjoin(tmp1, elem->name);
+		ft_strdel(&tmp1);
+	}
 	else
 	{
 		if (!ft_strcmp(".", elem->name))
@@ -98,5 +101,7 @@ t_path	*create_new_path(char *path, char *flags)
 		new_path = add_to_path(path, new_path, f->d_name);
 	}
 	new_path = sort_path(new_path, flags);
+	closedir(dir);
+	free(f);
 	return (new_path);
 }

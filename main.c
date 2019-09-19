@@ -76,6 +76,8 @@ int		main(int argc, char **argv)
 			ft_ls(path, flags, 1);
 		}
 	}
-	//system("leaks ft_ls");
+	ft_strdel(&flags);
+	//if (path)
+	//	path_del(path);
 	return (0);
 }
