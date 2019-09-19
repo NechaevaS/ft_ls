@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 08:49:02 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/17 14:30:22 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/18 16:47:32 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_error(const char *s, int n)
 		s++;
 		ft_putstr(s);
 		write(1, "\n", 1);
-		ft_putstr("usage: ft_ls [-laASRrtucf] [file ...]\n");
+		ft_putstr("usage: ft_ls [-ARSacflrtu1] [file ...]\n");
 		exit(0);
 	}
 }
@@ -46,27 +46,28 @@ int		count_blocks(t_path *p)
 	return (n_bl);
 }
 
-int		get_max_n(t_path *p, int n)
-{
-	unsigned int	max_lnk;
-	unsigned int	max_size;
-	int				res;
 
-	max_lnk = 0;
-	max_size = 0;
+void	get_max_n(t_path *p, t_help *max)
+{
+	int		gr_len;
+	int 	ow_len;
+
 	while (p)
 	{
-		if (p->stat->st_nlink > max_lnk)
-			max_lnk = p->stat->st_nlink;
-		if (p->stat->st_size > max_size)
-			max_size = p->stat->st_size;
+		gr_len = ft_strlen(getgrgid(p->stat->st_gid)->gr_name);
+		ow_len = ft_strlen(getpwuid(p->stat->st_uid)->pw_name);
+		if (p->stat->st_nlink > max->max_lnk)
+			max->max_lnk = p->stat->st_nlink;
+		if (p->stat->st_size >  max->max_size)
+			max->max_size = p->stat->st_size;
+		if ( gr_len >  max->max_group_name)
+			max->max_group_name = gr_len;
+		if (ow_len >  max->max_own_name)
+			max->max_own_name = ow_len;
 		p = p->next;
 	}
-	if (n == 1)
-		res = ft_strlen(ft_itoa(max_lnk));
-	if (n == 2)
-		res = ft_strlen(ft_itoa(max_size));
-	return (res);
+	max->max_lnk = ft_strlen(ft_itoa(max->max_lnk));
+	max->max_size = ft_strlen(ft_itoa(max->max_size));
 }
 
 t_path	*path_del(t_path *p)

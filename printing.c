@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/17 15:47:16 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/18 16:51:12 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,38 @@ void	print_name(t_path *path)
 		ft_putstr(path->name);
 }
 
-void	print_path(t_path *p, char *flags, int argc, int *pr)
+void	print_path(t_path *p, char *flags, int argc, int r, t_help	*max)
 {
-	t_help	max;
-
-	max.max_lnk = get_max_n(p, 1);
-	max.max_size = get_max_n(p, 2);
+	get_max_n(p, max);
 	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l')
 		&& isatty(fileno(stdout)))
-		print_column(p, flags, argc, pr);
+		print_column(p, flags, argc, max);
 	else
 	{
 		while (p)
 		{
-			if (argc == 1)
+			if (!r)
 			{
 				if (!S_ISDIR(p->stat->st_mode)
 					|| (S_ISDIR(p->stat->st_mode) && !argc))
-					printing(p, flags, max.max_lnk, max.max_size);
+				{
+					printing(p, flags, max);
+					ft_putstr("\n");
+				}
 			}
 			else
-				printing(p, flags, max.max_lnk, max.max_size);
-			ft_putstr("\n");
+			{
+				printing(p, flags, max);
+				ft_putstr("\n");
+			}
 			p = p->next;
 		}
 	}
+	if (argc && r)
+		ft_putstr("\n");
 }
 
-void	printing_l(t_path *path, int max_lnk, int max_size)
+void	printing_l(t_path *path, char *flags, t_help *max)
 {
 	print_type(path);
 	print_permission(*path);
@@ -69,15 +73,15 @@ void	printing_l(t_path *path, int max_lnk, int max_size)
 	else
 		ft_putstr(" ");
 	ft_putstr(" ");
-	print_num_lnk(path, max_lnk);
+	print_num_lnk(path, max);
 	ft_putstr(" ");
-	ft_putstr(getpwuid(path->stat->st_uid)->pw_name);
+	print_ow_name(path, max);
 	ft_putstr("  ");
-	ft_putstr(getgrgid(path->stat->st_gid)->gr_name);
+	print_gr_name(path, max);
 	ft_putstr("  ");
-	print_size(path, max_size);
+	print_size(path, max);
 	ft_putstr(" ");
-	print_time(path);
+	print_time(path, flags);
 	ft_putstr(" ");
 	print_name(path);
 	if (S_ISLNK(path->stat->st_mode))
@@ -87,10 +91,14 @@ void	printing_l(t_path *path, int max_lnk, int max_size)
 	}
 }
 
-void	printing(t_path *path, char *flags, int max_lnk, int max_size)
+void	printing(t_path *path, char *flags, t_help	*max)
 {
 	if (ft_strrchr(flags, 'l'))
-		printing_l(path, max_lnk, max_size);
+	{
+		printing_l(path, flags, max);
+	}
 	else
+	{
 		print_name(path);
+	}
 }

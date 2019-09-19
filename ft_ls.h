@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/17 15:47:02 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/18 16:50:46 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <errno.h>
 # include "libft/libft.h"
 
-# define FLAGS		("laARSrtucf1")
+# define FLAGS		("ARSacflrtu1")
 # define SIX_MONTHS	(15778800)
 
 # define COL_IFO	"\x1b[33m"
@@ -55,6 +55,9 @@ typedef struct
 {
 	int				max_lnk;
 	int				max_size;
+	int				max_group_name;
+	int				max_own_name;
+
 }					t_help;
 
 
@@ -72,20 +75,21 @@ void				print_path_name(t_path *path);
 t_path				*sort_path(t_path *path, char *flags);
 t_path				*sort_f(t_path *p);
 void				swap_elem(t_path *p1, t_path *p2);
-void				ft_ls(t_path *path, char *flags, int argc);
+void				ft_ls(t_path *path, char *flags, int argc, t_help *max);
 t_path 				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
 t_path				*path_del(t_path *p);
-void				del_all_path(t_path *path);
-int					get_max_n(t_path *p, int n);
-void				print_column(t_path *p, char *flags, int argc, int *pr);
+void				get_max_n(t_path *p, t_help *max);
+void				print_column(t_path *p, char *flags, int argc, t_help *max);
 void				print_type(t_path *path);
+void				print_gr_name(t_path *path, t_help *max);
+void				print_ow_name(t_path *path, t_help *max);
 void				print_permission(t_path path);
-void				print_time(t_path *path);
-void				print_size(t_path *path, int max_size);
-void				print_num_lnk(t_path *path, int max_lnk);
+void				print_time(t_path *path, char *flags);
+void				print_size(t_path *path, t_help *max);
+void				print_num_lnk(t_path *path, t_help *max);
 void				print_name(t_path *path);
-void				print_path(t_path *p, char *flags, int srt, int *pr);
-void				printing_l(t_path *path, int max_lnk, int max_size);
-void				printing(t_path *path, char *flags, int max_lnk, int max_size);
+void				print_path(t_path *p, char *flags, int srt, int r, t_help *max);
+void				printing_l(t_path *path, char *flags, t_help *max);
+void				printing(t_path *path, char *flags, t_help *max);
 #endif

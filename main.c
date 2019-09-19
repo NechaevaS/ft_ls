@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/17 15:25:54 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/18 16:39:29 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,26 @@ t_path	*parse_args(char **argv, int argc, char *flags)
 		path = add_to_path(0, path, argv[i - 1]);
 	return (path);
 }
+t_help	*init_max()
+{
+	t_help	*max;
+
+	max = (t_help *)malloc(sizeof(t_help));
+	max->max_lnk = 0;
+	max->max_size = 0;
+	max->max_group_name = 0;
+	max->max_own_name = 0;
+	return (max);
+}
 
 int		main(int argc, char **argv)
 {
 	char	*flags;
 	t_path	*path;
+	t_help	*max;
 
 	flags = ft_strnew((int)ft_strlen(FLAGS));
+	max = init_max();
 	if (!flags)
 		return (3);
 	else
@@ -68,12 +81,12 @@ int		main(int argc, char **argv)
 		if (!path)
 		{
 			path = add_to_path(0, path, ".");
-			ft_ls(path, flags, argc);
+			ft_ls(path, flags, 0, max);
 		}
 		else
 		{
 			path = sort_path(path, flags);
-			ft_ls(path, flags, argc);
+			ft_ls(path, flags, 1, max);
 		}
 	}
 	//system("leaks ft_ls");

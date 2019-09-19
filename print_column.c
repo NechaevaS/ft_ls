@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:15:06 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/17 16:01:38 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/18 16:50:48 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		path_len(t_path *p, int argc)
 	len = 0;
 	while (p)
 	{
-		if (argc >= 2  && (S_ISDIR(p->stat->st_mode)
+		if (argc == 1 && (S_ISDIR(p->stat->st_mode)
 			|| S_ISLNK(p->stat->st_mode)))
 			p = p->next;
 		else
@@ -40,7 +40,7 @@ t_path	**fill_arr(t_path *p, int argc, t_col col)
 	arr = (t_path **)malloc(sizeof(t_path *) * col.n_elem);
 	while (i < col.n_elem && p)
 	{
-		if (argc >= 2 && (S_ISDIR(p->stat->st_mode)
+		if (argc == 1 && (S_ISDIR(p->stat->st_mode)
 			|| S_ISLNK(p->stat->st_mode)))
 			p = p->next;
 		else
@@ -98,7 +98,7 @@ void	print_row(t_col col, t_path **arr, int start)
 	ft_putstr("\n");
 }
 
-void	print_column(t_path *p, char *flags, int argc, int *pr)
+void	print_column(t_path *p, char *flags, int argc, t_help *max)
 {
 	t_path			**arr;
 	struct winsize	ws;
@@ -111,8 +111,9 @@ void	print_column(t_path *p, char *flags, int argc, int *pr)
 	if (!(col.n_elem = path_len(p, argc)))
 		return ;
 	if (ioctl(0, TIOCGWINSZ, &ws) != 0)
-		return (print_path(p, flags, argc, pr));
-	if (!(arr = fill_arr(p, argc, col)))
+		return (print_path(p, flags, 0, 0, max));
+	arr = fill_arr(p, argc, col);
+	if (arr == NULL)
 		return ;
 	all_len = (get_max(arr, col.n_elem, 0, 0) + 2) * col.n_elem;
 	col.cols = ws.ws_col / get_max(arr, col.n_elem, 0, 0);
@@ -123,5 +124,4 @@ void	print_column(t_path *p, char *flags, int argc, int *pr)
 		print_row(col, arr, i);
 		i++;
 	}
-	(*pr) = 1;
 }

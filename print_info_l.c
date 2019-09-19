@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/13 15:46:32 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/18 17:02:18 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,27 @@ void	print_permission(t_path path)
 	ft_putstr(res);
 }
 
-void	print_time(t_path *path)
+char *choose_time(t_path *path, char *flags)
+{
+	char	*t;
+
+	if (ft_strrchr(flags, 'u') && ft_strrchr(flags, 't'))
+		t = ctime(&path->stat->st_atime);
+	else if (ft_strrchr(flags, 'c') && ft_strrchr(flags, 't'))
+		t = ctime(&path->stat->st_ctime);
+	else
+		t = ctime(&path->stat->st_mtime);
+	return (t);
+}
+
+void	print_time(t_path *path, char *flags)
 {
 	char	*t;
 	char	**arr;
 	time_t	t_now;
 
 	t_now = time(NULL);
-	t = ctime(&path->stat->st_mtime);
+	t = choose_time(path, flags);
 	arr = ft_strsplit(t, ' ');
 	arr[3][5] = '\0';
 	arr[4][4] = '\0';
@@ -86,32 +99,57 @@ void	print_time(t_path *path)
 	}
 }
 
-void	print_size(t_path *path, int max_size)
+void	print_size(t_path *path, t_help *max)
 {
 	char	*s;
 	int		len;
 
 	s = ft_itoa(path->stat->st_size);
 	len = ft_strlen(s);
-	while (max_size != len)
+	while (max->max_size != len)
 	{
 		ft_putstr(" ");
-		max_size--;
+		max->max_size--;
 	}
 	ft_putstr(s);
 }
 
-void	print_num_lnk(t_path *path, int max_lnk)
+void	print_num_lnk(t_path *path, t_help *max)
 {
 	int		n_lnk;
 	char	*s;
 
 	n_lnk = path->stat->st_nlink;
 	s = ft_itoa(n_lnk);
-	while (max_lnk > (int)ft_strlen(s))
+	while (max->max_lnk > (int)ft_strlen(s))
 	{
 		ft_putstr(" ");
-		max_lnk--;
+		max->max_lnk--;
 	}
 	ft_putstr(s);
+}
+
+void print_gr_name(t_path *path, t_help *max)
+{
+	int ws;
+
+	ft_putstr(getgrgid(path->stat->st_gid)->gr_name);
+	ws = max->max_group_name - ft_strlen(getgrgid(path->stat->st_gid)->gr_name);
+	while (ws > 0)
+	{
+		ft_putstr(" ");
+		ws--;
+	}
+}
+void print_ow_name(t_path *path, t_help *max)
+{
+	int ws;
+
+	ft_putstr(getpwuid(path->stat->st_uid)->pw_name);
+	ws = max->max_own_name - ft_strlen(getpwuid(path->stat->st_uid)->pw_name);
+	while (ws > 0)
+	{
+		ft_putstr(" ");
+		ws--;
+	}
 }
