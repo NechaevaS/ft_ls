@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 15:03:42 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/20 11:33:31 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 16:30:28 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_path	*init_elem(char *curr)
 void	add_all_p(char *old_p, t_path *elem)
 {
 	char	*tmp1;
+
 	if (old_p)
 	{
 		tmp1 = ft_strjoin(old_p, "/");

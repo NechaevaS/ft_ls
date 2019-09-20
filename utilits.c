@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 08:49:02 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/20 11:42:49 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 16:30:50 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,11 @@ void	fill_max(t_path *p, t_help *tmp)
 	}
 }
 
-void	get_max_n(t_path *path)
+void	get_max_l_s(t_path *p, t_help *tmp)
 {
 	char	*lnk;
 	char	*size;
-	t_help	*tmp;
-	t_path	*p;
 
-	tmp = init_max();
-	p = path;
 	while (p)
 	{
 		lnk = ft_itoa(p->stat->st_nlink);
@@ -75,13 +71,29 @@ void	get_max_n(t_path *path)
 			tmp->max_lnk = ft_strlen(lnk);
 		if ((int)ft_strlen(size) > tmp->max_size)
 			tmp->max_size = ft_strlen(size);
-		if ((int)ft_strlen(getgrgid(p->stat->st_gid)->gr_name) > tmp->max_group_name)
-			tmp->max_group_name = ft_strlen(getgrgid(p->stat->st_gid)->gr_name);
-		if ((int)ft_strlen(getpwuid(p->stat->st_uid)->pw_name) > tmp->max_own_name)
-			tmp->max_own_name = ft_strlen(getpwuid(p->stat->st_uid)->pw_name);
 		p = p->next;
 		free(lnk);
 		free(size);
+	}
+}
+
+void	get_max_n(t_path *path)
+{
+	t_help	*tmp;
+	t_path	*p;
+
+	tmp = init_max();
+	get_max_l_s(path, tmp);
+	p = path;
+	while (p)
+	{
+		if ((int)ft_strlen(getgrgid(p->stat->st_gid)->gr_name)
+			> tmp->max_group_name)
+			tmp->max_group_name = ft_strlen(getgrgid(p->stat->st_gid)->gr_name);
+		if ((int)ft_strlen(getpwuid(p->stat->st_uid)->pw_name)
+			> tmp->max_own_name)
+			tmp->max_own_name = ft_strlen(getpwuid(p->stat->st_uid)->pw_name);
+		p = p->next;
 	}
 	p = path;
 	fill_max(p, tmp);

@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:15:06 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/20 14:25:41 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 16:46:36 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		get_max(t_path **arr, int n, int cur, int row)
 	return (max + 1);
 }
 
-void	print_row(t_col col, t_path **arr, int start)
+void	print_row(t_col col, t_path **arr, int start, int *r)
 {
 	int	i;
 	int	cur;
@@ -98,6 +98,7 @@ void	print_row(t_col col, t_path **arr, int start)
 		i++;
 	}
 	ft_putstr("\n");
+	(*r) = 2;
 }
 
 void	print_column(t_path *p, char *flags, int argc, int *r)
@@ -117,15 +118,14 @@ void	print_column(t_path *p, char *flags, int argc, int *r)
 	arr = fill_arr(p, argc, col);
 	if (arr == NULL)
 		return ;
-	all_len = (get_max(arr, col.n_elem, 0, 0) + 2) * col.n_elem;
+	all_len = (get_max(arr, col.n_elem, 0, 0)) * col.n_elem;
 	col.cols = ws.ws_col / get_max(arr, col.n_elem, 0, 0);
 	col.blk_l = ws.ws_col / col.cols;
 	col.rows = col.n_elem / col.cols + (all_len % (ws.ws_col) ? 1 : 0);
 	while (i < col.rows)
 	{
-		print_row(col, arr, i);
+		print_row(col, arr, i, r);
 		i++;
 	}
-	(*r) = 2;
 	free(arr);
 }

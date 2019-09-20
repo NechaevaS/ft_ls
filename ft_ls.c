@@ -6,18 +6,18 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/20 15:46:00 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 16:12:23 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int check_dir(t_path *p)
+int		check_dir(t_path *p)
 {
-	int res;
+	int	res;
 
 	res = 0;
-	while(p)
+	while (p)
 	{
 		if (S_ISDIR(p->stat->st_mode))
 			res++;
@@ -83,7 +83,6 @@ void	print_argc(t_path *path, char *flags, int argc, int *r)
 	{
 		print_path(path, flags, argc, r);
 	}
-//	(*r)++;
 }
 
 void	ft_ls(t_path *path, char *flags, int argc)
@@ -92,8 +91,6 @@ void	ft_ls(t_path *path, char *flags, int argc)
 	int		f;
 	int		n_dir;
 
-	if (!path)
-		return ;
 	r = 0;
 	n_dir = check_dir(path);
 	print_argc(path, flags, argc, &r);
@@ -104,10 +101,8 @@ void	ft_ls(t_path *path, char *flags, int argc)
 		{
 			if ((f == 0 && !path->next && !r) || (n_dir <= 1 && r <= 1))
 				r = 0;
-			if (f == 0 && !argc)
-				r = 2;
 			if (f == 0 && n_dir > 1 && !r)
-			 	r = 1;
+				r = 1;
 			ft_ls_rec(path, flags, &r);
 			f++;
 		}
