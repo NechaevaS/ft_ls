@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 08:49:02 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:36:04 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 11:42:49 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,36 +46,44 @@ int		count_blocks(t_path *p)
 	return (n_bl);
 }
 
-
-void	get_max_n(t_path *p)
+void	fill_max(t_path *p, t_help *tmp)
 {
-	int		gr_len;
-	int 	ow_len;
-	char	*lnk;
-	char	*size;
-	int 	lnk_len;
-	int 	size_len;
-
 	while (p)
 	{
-		gr_len = ft_strlen(getgrgid(p->stat->st_gid)->gr_name);
-		ow_len = ft_strlen(getpwuid(p->stat->st_uid)->pw_name);
+		p->max->max_lnk = tmp->max_lnk;
+		p->max->max_size = tmp->max_size;
+		p->max->max_group_name = tmp->max_group_name;
+		p->max->max_own_name = tmp->max_own_name;
+		p = p->next;
+	}
+}
+
+void	get_max_n(t_path *path)
+{
+	char	*lnk;
+	char	*size;
+	t_help	*tmp;
+	t_path	*p;
+
+	tmp = init_max();
+	p = path;
+	while (p)
+	{
 		lnk = ft_itoa(p->stat->st_nlink);
 		size = ft_itoa(p->stat->st_size);
-		lnk_len = ft_strlen(lnk);
-		size_len = ft_strlen(size);
-		if (lnk_len > p->max->max_lnk)
-			p->max->max_lnk = lnk_len;
-		if (size_len > p->max->max_size)
-			p->max->max_size = size_len;
-		if ( gr_len > p->max->max_group_name)
-			p->max->max_group_name = gr_len;
-		if (ow_len > p->max->max_own_name)
-			p->max->max_own_name = ow_len;
+		if ((int)ft_strlen(lnk) > tmp->max_lnk)
+			tmp->max_lnk = ft_strlen(lnk);
+		if ((int)ft_strlen(size) > tmp->max_size)
+			tmp->max_size = ft_strlen(size);
+		if ((int)ft_strlen(getgrgid(p->stat->st_gid)->gr_name) > tmp->max_group_name)
+			tmp->max_group_name = ft_strlen(getgrgid(p->stat->st_gid)->gr_name);
+		if ((int)ft_strlen(getpwuid(p->stat->st_uid)->pw_name) > tmp->max_own_name)
+			tmp->max_own_name = ft_strlen(getpwuid(p->stat->st_uid)->pw_name);
 		p = p->next;
 		free(lnk);
 		free(size);
 	}
-
+	p = path;
+	fill_max(p, tmp);
+	free(tmp);
 }
-

@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:15:06 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:36:40 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 14:25:41 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	print_row(t_col col, t_path **arr, int start)
 	{
 		print_name(arr[cur]);
 		wsps = col.blk_l - ft_strlen(arr[cur]->name);
+		if (col.rows == 1)
+			wsps--;
 		while (wsps > 0)
 		{
 			write(1, " ", 1);
@@ -98,7 +100,7 @@ void	print_row(t_col col, t_path **arr, int start)
 	ft_putstr("\n");
 }
 
-void	print_column(t_path *p, char *flags, int argc)
+void	print_column(t_path *p, char *flags, int argc, int *r)
 {
 	t_path			**arr;
 	struct winsize	ws;
@@ -111,7 +113,7 @@ void	print_column(t_path *p, char *flags, int argc)
 	if (!(col.n_elem = path_len(p, argc)))
 		return ;
 	if (ioctl(0, TIOCGWINSZ, &ws) != 0)
-		return (print_path(p, flags, 0, 0));
+		return (print_path(p, flags, 0, r));
 	arr = fill_arr(p, argc, col);
 	if (arr == NULL)
 		return ;
@@ -124,5 +126,6 @@ void	print_column(t_path *p, char *flags, int argc)
 		print_row(col, arr, i);
 		i++;
 	}
+	(*r) = 2;
 	free(arr);
 }

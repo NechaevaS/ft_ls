@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 11:13:52 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:15:32 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 11:17:52 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ t_path	*elem_del(t_path *p)
 	{
 		ft_strdel(&(p)->name);
 		ft_strdel(&(p)->all_p);
-		free(p->stat);
-        free(p->max);
 		ft_strdel(&(p)->link);
+		free(p->stat);
+		free(p->max);
 		free(p);
 		p = NULL;
 	}
 	return (tmp);
 }
 
-t_help	*init_max()
+t_help	*init_max(void)
 {
 	t_help	*max;
 

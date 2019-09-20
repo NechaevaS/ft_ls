@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:25:02 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 11:23:17 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_permission(t_path path)
 	ft_putstr(res);
 }
 
-char *choose_time(t_path *path, char *flags)
+char	*choose_time(t_path *path, char *flags)
 {
 	char	*t;
 
@@ -116,4 +116,3 @@ void	print_size(t_path *path)
 	ft_putstr(s);
 	free(s);
 }
-

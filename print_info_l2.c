@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 11:18:23 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:21:56 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 11:21:52 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	print_num_lnk(t_path *path)
 	free(s);
 }
 
-void print_gr_name(t_path *path)
+void	print_gr_name(t_path *path)
 {
-	int ws;
-    int len;
+	int	ws;
+	int	len;
 
 	ft_putstr(getgrgid(path->stat->st_gid)->gr_name);
-    len = ft_strlen(getgrgid(path->stat->st_gid)->gr_name);
+	len = ft_strlen(getgrgid(path->stat->st_gid)->gr_name);
 	ws = path->max->max_group_name - len;
 	while (ws > 0)
 	{
@@ -45,9 +45,9 @@ void print_gr_name(t_path *path)
 	}
 }
 
-void print_ow_name(t_path *p)
+void	print_ow_name(t_path *p)
 {
-	int ws;
+	int	ws;
 
 	ft_putstr(getpwuid(p->stat->st_uid)->pw_name);
 	ws = p->max->max_own_name - ft_strlen(getpwuid(p->stat->st_uid)->pw_name);

@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:15:01 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 11:09:56 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,5 @@ int		main(int argc, char **argv)
 		}
 	}
 	ft_strdel(&flags);
-	//if (path)
-	//	path_del(path);
 	return (0);
 }

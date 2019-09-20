@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:08:46 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 14:18:22 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 			ft_putstr("\n");
 		if (r)
 		{
-			ft_putstr(path->name);
+			ft_putstr(path->all_p);
 			ft_putstr(":\n");
 		}
 	}
@@ -37,31 +37,24 @@ void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 void	ft_ls_rec(t_path *path, char *flags, int *r)
 {
 	t_path	*n_p;
-//	char	*tmp;
+	char	*tmp;
 	t_path	*p;
 
 	if (!(n_p = create_new_path(path->all_p, flags)))
 		return ;
 	print_folder_name(path, *r, flags, n_p);
-	print_path(n_p, flags, 0, *r);
+	print_path(n_p, flags, 0, r);
 	(*r)++;
-//	tmp = path->name;
+	tmp = path->name;
 	p = n_p;
 	while (p && ft_strrchr(flags, 'R'))
 	{
-		if ((S_ISDIR(p->stat->st_mode))
-		 && ft_strcmp(".", p->name)
-			&& ft_strcmp("..", p->name)
-		)
+		if ((S_ISDIR(p->stat->st_mode)) && ft_strcmp(".", p->name)
+			&& ft_strcmp("..", p->name))
 		{
-		//	if (!ft_strcmp("/", path->name))
-		//		path->name = ft_strjoin(path->name, p->name);
-			// else
-			// 	path->name = ft_strjoin(ft_strjoin(path->name, "/"), p->name);
-			//path->name = path->all_p;
-			(*r)++;
+			(*r) = 2;
 			ft_ls_rec(p, flags, r);
-		//	path->name = tmp;
+			path->name = tmp;
 		}
 		p = p->next;
 	}
@@ -74,9 +67,9 @@ void	print_argc(t_path *path, char *flags, int argc, int *r)
 		return ;
 	if (argc && ft_strncmp("../", path->name, 3))
 	{
-		print_path(path, flags, argc, 0);
-		(*r)++;
+		print_path(path, flags, argc, r);
 	}
+//	(*r)++;
 }
 
 void	ft_ls(t_path *path, char *flags, int argc)
@@ -93,10 +86,12 @@ void	ft_ls(t_path *path, char *flags, int argc)
 	{
 		if (S_ISDIR(path->stat->st_mode))
 		{
-			if (f == 0 && !path->next)
+			if (f == 0 && !path->next && !r)
 				r = 0;
 			if (f == 0 && !argc)
 				r = 2;
+			// else
+			// 	r = 1;
 			ft_ls_rec(path, flags, &r);
 			f++;
 		}

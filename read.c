@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 15:03:42 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/19 11:07:26 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 11:33:31 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@ void	add_link_and_attr(t_path *elem)
 {
 	ssize_t	buflen;
 
-#ifdef __APPLE__
 	buflen = listxattr(elem->all_p, NULL, 0, XATTR_NOFOLLOW);
-#else
-	buflen = listxattr(elem->all_p, NULL, 0);
-#endif
 	if (buflen > 0)
 		elem->attr = '@';
 	else
@@ -44,13 +40,9 @@ t_path	*init_elem(char *curr)
 	return (elem);
 }
 
-t_path	*add_to_path(char *old_p, t_path *path, char *curr)
+void	add_all_p(char *old_p, t_path *elem)
 {
-	t_path	*current;
-	t_path	*elem;
 	char	*tmp1;
-
-	elem = init_elem(curr);
 	if (old_p)
 	{
 		tmp1 = ft_strjoin(old_p, "/");
@@ -63,6 +55,15 @@ t_path	*add_to_path(char *old_p, t_path *path, char *curr)
 			elem->all_p = "./";
 		elem->all_p = ft_strdup(elem->name);
 	}
+}
+
+t_path	*add_to_path(char *old_p, t_path *path, char *curr)
+{
+	t_path	*current;
+	t_path	*elem;
+
+	elem = init_elem(curr);
+	add_all_p(old_p, elem);
 	if (lstat(elem->all_p, elem->stat) < 0)
 		ft_error(elem->all_p, 1);
 	add_link_and_attr(elem);

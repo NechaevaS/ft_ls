@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:19:47 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/18 14:17:53 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 11:56:02 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		is_less_name(t_path *s1, t_path *s2, char c)
 {
 	if (!c)
 		return (-1);
-
 	if (ft_strcmp(s1->name, s2->name) <= 0)
 		return (1);
 	return (0);
@@ -38,70 +37,21 @@ int		is_less_time(t_path *s1, t_path *s2, char c)
 {
 	if (c == 'u')
 	{
-		if ((s1->stat->st_atime > s2->stat->st_atime))
-			// || (s1->stat->st_atime.tv_sec == s2->stat->st_atime.tv_sec
-			// && s1->stat->st_atime.tv_nsec > s2->stat->st_atime.tv_nsec)
-			// || (s1->stat->st_atime.tv_sec == s2->stat->st_atime.tv_sec
-			// && s1->stat->st_atime.tv_nsec == s2->stat->st_atime.tv_nsec
-			// && ft_strcmp(s1->name, s2->name) < 0))
+		if (is_less_a_time(s1, s2))
 			return (1);
 	}
 	if (c == 'c')
 	{
-		if ((s1->stat->st_ctime > s2->stat->st_ctime))
-			// || (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
-			// && s1->stat->st_ctimespec.tv_nsec > s2->stat->st_ctimespec.tv_nsec)
-			// || (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
-			// && s1->stat->st_ctimespec.tv_nsec == s2->stat->st_ctimespec.tv_nsec
-			// && ft_strcmp(s1->name, s2->name) <= 0))
+		if (is_less_c_time(s1, s2))
 			return (1);
 	}
 	if (c == 'm')
 	{
-		if ((s1->stat->st_mtime > s2->stat->st_mtime))
-			// || (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
-			// && s1->stat->st_mtimespec.tv_nsec > s2->stat->st_mtimespec.tv_nsec)
-			// || (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
-			// && s1->stat->st_mtimespec.tv_nsec == s2->stat->st_mtimespec.tv_nsec
-			// && ft_strcmp(s1->name, s2->name) <= 0))
+		if (is_less_m_time(s1, s2))
 			return (1);
 	}
 	return (0);
 }
-// int		is_less_time(t_path *s1, t_path *s2, char c)
-// {
-// 	if (c == 'u')
-// 	{
-// 		if ((s1->stat->st_atimespec.tv_sec > s2->stat->st_atimespec.tv_sec)
-// 			|| (s1->stat->st_atimespec.tv_sec == s2->stat->st_atimespec.tv_sec
-// 			&& s1->stat->st_atimespec.tv_nsec > s2->stat->st_atimespec.tv_nsec)
-// 			|| (s1->stat->st_atimespec.tv_sec == s2->stat->st_atimespec.tv_sec
-// 			&& s1->stat->st_atimespec.tv_nsec == s2->stat->st_atimespec.tv_nsec
-// 			&& ft_strcmp(s1->name, s2->name) < 0))
-// 			return (1);
-// 	}
-// 	if (c == 'c')
-// 	{
-// 		if ((s1->stat->st_ctimespec.tv_sec > s2->stat->st_ctimespec.tv_sec)
-// 			|| (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
-// 			&& s1->stat->st_ctimespec.tv_nsec > s2->stat->st_ctimespec.tv_nsec)
-// 			|| (s1->stat->st_ctimespec.tv_sec == s2->stat->st_ctimespec.tv_sec
-// 			&& s1->stat->st_ctimespec.tv_nsec == s2->stat->st_ctimespec.tv_nsec
-// 			&& ft_strcmp(s1->name, s2->name) <= 0))
-// 			return (1);
-// 	}
-// 	if (c == 'm')
-// 	{
-// 		if ((s1->stat->st_mtimespec.tv_sec > s2->stat->st_mtimespec.tv_sec)
-// 			|| (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
-// 			&& s1->stat->st_mtimespec.tv_nsec > s2->stat->st_mtimespec.tv_nsec)
-// 			|| (s1->stat->st_mtimespec.tv_sec == s2->stat->st_mtimespec.tv_sec
-// 			&& s1->stat->st_mtimespec.tv_nsec == s2->stat->st_mtimespec.tv_nsec
-// 			&& ft_strcmp(s1->name, s2->name) <= 0))
-// 			return (1);
-// 	}
-// 	return (0);
-// }
 
 t_path	*sort(t_path *p, int (*cmp)(t_path *, t_path *, char), int r, char s)
 {
