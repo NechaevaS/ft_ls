@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/20 14:20:25 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 15:50:32 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,13 @@ void	print_path(t_path *p, char *flags, int argc, int *r)
 			{
 				if (!S_ISDIR(p->stat->st_mode)
 				|| (S_ISDIR(p->stat->st_mode) && !argc))
-				{
 					printing(p, flags);
-					ft_putstr("\n");
-				}
 			}
 			else
-			{
 				printing(p, flags);
-				ft_putstr("\n");
-			}
 			p = p->next;
 		}
+		(*r)++;
 	}
 }
 
@@ -101,4 +96,5 @@ void	printing(t_path *path, char *flags)
 	{
 		print_name(path);
 	}
+	ft_putstr("\n");
 }

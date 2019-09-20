@@ -6,11 +6,25 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 11:32:01 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/20 14:18:22 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/20 15:46:00 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+int check_dir(t_path *p)
+{
+	int res;
+
+	res = 0;
+	while(p)
+	{
+		if (S_ISDIR(p->stat->st_mode))
+			res++;
+		p = p->next;
+	}
+	return (res);
+}
 
 void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 {
@@ -76,22 +90,24 @@ void	ft_ls(t_path *path, char *flags, int argc)
 {
 	int		r;
 	int		f;
+	int		n_dir;
 
 	if (!path)
 		return ;
 	r = 0;
+	n_dir = check_dir(path);
 	print_argc(path, flags, argc, &r);
 	f = 0;
 	while (path)
 	{
 		if (S_ISDIR(path->stat->st_mode))
 		{
-			if (f == 0 && !path->next && !r)
+			if ((f == 0 && !path->next && !r) || (n_dir <= 1 && r <= 1))
 				r = 0;
 			if (f == 0 && !argc)
 				r = 2;
-			// else
-			// 	r = 1;
+			if (f == 0 && n_dir > 1 && !r)
+			 	r = 1;
 			ft_ls_rec(path, flags, &r);
 			f++;
 		}
