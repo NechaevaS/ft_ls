@@ -61,7 +61,7 @@ t_path	*add_to_path(char *old_p, t_path *path, char *curr)
 	{
 		if (!ft_strcmp(".", elem->name))
 			elem->all_p = "./";
-		elem->all_p = elem->name;
+		elem->all_p = ft_strdup(elem->name);
 	}
 	if (lstat(elem->all_p, elem->stat) < 0)
 		ft_error(elem->all_p, 1);

@@ -37,31 +37,35 @@ void	print_folder_name(t_path *path, int r, char *flags, t_path *n_p)
 void	ft_ls_rec(t_path *path, char *flags, int *r)
 {
 	t_path	*n_p;
-	char	*tmp;
+//	char	*tmp;
+	t_path	*p;
 
-	if (!(n_p = create_new_path(path->name, flags)))
+	if (!(n_p = create_new_path(path->all_p, flags)))
 		return ;
 	print_folder_name(path, *r, flags, n_p);
 	print_path(n_p, flags, 0, *r);
 	(*r)++;
-	tmp = path->name;
-	while (n_p && ft_strrchr(flags, 'R'))
+//	tmp = path->name;
+	p = n_p;
+	while (p && ft_strrchr(flags, 'R'))
 	{
-		if ((S_ISDIR(n_p->stat->st_mode)) && ft_strcmp(".", n_p->name)
-			&& ft_strcmp("..", n_p->name))
+		if ((S_ISDIR(p->stat->st_mode))
+		 && ft_strcmp(".", p->name)
+			&& ft_strcmp("..", p->name)
+		)
 		{
-			if (!ft_strcmp("/", path->name))
-				path->name = ft_strjoin(path->name, n_p->name);
-			else
-				path->name = ft_strjoin(ft_strjoin(path->name, "/"), n_p->name);
+		//	if (!ft_strcmp("/", path->name))
+		//		path->name = ft_strjoin(path->name, p->name);
+			// else
+			// 	path->name = ft_strjoin(ft_strjoin(path->name, "/"), p->name);
+			//path->name = path->all_p;
 			(*r)++;
-			ft_ls_rec(path, flags, r);
-			path->name = tmp;
+			ft_ls_rec(p, flags, r);
+		//	path->name = tmp;
 		}
-		n_p = elem_del(n_p);
+		p = p->next;
 	}
-	free(n_p);
-	ft_strdel(&path->name);
+	path_del(n_p);
 }
 
 void	print_argc(t_path *path, char *flags, int argc, int *r)

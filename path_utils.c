@@ -16,8 +16,7 @@ void	path_del(t_path *p)
 {
 	while (p)
 	{
-		elem_del(p);
-		p = p->next;
+		p = elem_del(p);
 	}
 }
 
@@ -32,6 +31,7 @@ t_path	*elem_del(t_path *p)
 	if (p || p->next)
 	{
 		ft_strdel(&(p)->name);
+		ft_strdel(&(p)->all_p);
 		free(p->stat);
         free(p->max);
 		ft_strdel(&(p)->link);
