@@ -6,12 +6,13 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/20 13:56:18 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/23 15:24:32 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
+
 # include <stdlib.h>
 # include <sys/xattr.h>
 # include <sys/stat.h>
@@ -21,7 +22,6 @@
 # include <grp.h>
 # include <time.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <dirent.h>
 # include <errno.h>
 # include "libft/libft.h"
@@ -48,7 +48,7 @@ typedef struct
 
 }					t_help;
 
-typedef struct 		s_path
+typedef struct		s_path
 {
 	char			*all_p;
 	char			attr;
@@ -68,7 +68,7 @@ typedef struct
 }					t_col;
 
 void				ft_error(const char *s, int n);
-t_path				*add_to_path(char *old_p,t_path *path, char *curr);
+t_path				*add_to_path(char *old_p, t_path *path, char *curr);
 t_help				*init_max();
 void				print_path_name(t_path *path);
 int					is_less_a_time(t_path *s1, t_path *s2);
@@ -78,12 +78,12 @@ t_path				*sort_path(t_path *path, char *flags);
 t_path				*sort_f(t_path *p);
 void				swap_elem(t_path *p1, t_path *p2);
 void				ft_ls(t_path *path, char *flags, int argc);
-t_path 				*create_new_path(char *path, char *flags);
+t_path				*create_new_path(char *path, char *flags);
 int					count_blocks(t_path *p);
 void				path_del(t_path *p);
 t_path				*elem_del(t_path *p);
 void				get_max_n(t_path *p);
-void				print_column(t_path *p, char *flags, int argc, int *r);
+void				print_column(t_path *p, int argc, int *r);
 void				print_type(t_path *path);
 void				print_gr_name(t_path *path);
 void				print_ow_name(t_path *path);

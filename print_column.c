@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 16:15:06 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/20 16:46:36 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/23 15:17:30 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,25 +54,22 @@ t_path	**fill_arr(t_path *p, int argc, t_col col)
 		return (NULL);
 	return (arr);
 }
-
-int		get_max(t_path **arr, int n, int cur, int row)
+int		get_max(t_path **arr, t_col *col)
 {
 	int	max;
-	int	curr;
-	int	fin;
-	int	start;
+	int	i;
+	int curr;
 
-	start = cur - row;
-	fin = n - row + cur;
 	max = 0;
-	while (start < fin && arr[start])
+	i = 0;
+	while (i < col->n_elem)
 	{
-		curr = ft_strlen(arr[start]->name);
+		curr = ft_strlen(arr[i]->name);
 		if (curr > max)
 			max = curr;
-		start++;
+		i++;
 	}
-	return (max + 1);
+	return (max);
 }
 
 void	print_row(t_col col, t_path **arr, int start, int *r)
@@ -87,12 +84,13 @@ void	print_row(t_col col, t_path **arr, int start, int *r)
 	{
 		print_name(arr[cur]);
 		wsps = col.blk_l - ft_strlen(arr[cur]->name);
-		if (col.rows == 1)
-			wsps--;
-		while (wsps > 0)
+		if (i + 1 != col.cols)
 		{
-			write(1, " ", 1);
-			wsps--;
+			while (wsps > 0)
+			{
+				write(1, " ", 1);
+				wsps--;
+			}
 		}
 		cur = cur + col.rows;
 		i++;
@@ -101,27 +99,25 @@ void	print_row(t_col col, t_path **arr, int start, int *r)
 	(*r) = 2;
 }
 
-void	print_column(t_path *p, char *flags, int argc, int *r)
+void	print_column(t_path *p, int argc, int *r)
 {
 	t_path			**arr;
 	struct winsize	ws;
 	t_col			col;
 	int				i;
-	int				all_len;
 
-	all_len = 0;
 	i = 0;
 	if (!(col.n_elem = path_len(p, argc)))
 		return ;
-	if (ioctl(0, TIOCGWINSZ, &ws) != 0)
-		return (print_path(p, flags, 0, r));
+	if ((col.cols = ioctl(0, TIOCGWINSZ, &ws)) != 0)
+		return (print_path(p, "1", 0, r));
 	arr = fill_arr(p, argc, col);
 	if (arr == NULL)
 		return ;
-	all_len = (get_max(arr, col.n_elem, 0, 0)) * col.n_elem;
-	col.cols = ws.ws_col / get_max(arr, col.n_elem, 0, 0);
-	col.blk_l = ws.ws_col / col.cols;
-	col.rows = col.n_elem / col.cols + (all_len % (ws.ws_col) ? 1 : 0);
+	col.cols = ws.ws_col / ((get_max(arr, &col) + 1));
+	col.blk_l = (get_max(arr, &col) + 1);
+	col.rows = col.n_elem / col.cols + (col.n_elem % (col.cols) ? 1 : 0);
+	col.cols = col.n_elem / col.rows + (col.n_elem % (col.rows) ? 1 : 0);;
 	while (i < col.rows)
 	{
 		print_row(col, arr, i, r);

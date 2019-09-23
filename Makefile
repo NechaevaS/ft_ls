@@ -6,14 +6,14 @@
 #    By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/07 14:47:44 by snechaev          #+#    #+#              #
-#    Updated: 2019/09/20 11:07:15 by snechaev         ###   ########.fr        #
+#    Updated: 2019/09/23 15:20:11 by snechaev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
 OBJS = main.o\
-       		read.o\
+       		create_new_p.o\
 			utilits.o\
 			path_utils.o\
 			sort.o\
