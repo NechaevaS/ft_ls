@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/31 14:02:03 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/23 15:24:32 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/24 14:35:14 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <grp.h>
 # include <time.h>
 # include <unistd.h>
+# include <stdio.h>
 # include <dirent.h>
 # include <errno.h>
 # include "libft/libft.h"

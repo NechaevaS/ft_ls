@@ -6,7 +6,7 @@
 /*   By: snechaev <snechaev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 13:44:14 by snechaev          #+#    #+#             */
-/*   Updated: 2019/09/23 14:29:25 by snechaev         ###   ########.fr       */
+/*   Updated: 2019/09/24 14:35:18 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,32 @@
 
 void	print_name(t_path *path)
 {
-	if (S_ISDIR(path->stat->st_mode))
-		ft_putstr(COL_DIR);
-	if (S_ISCHR(path->stat->st_mode))
-		ft_putstr(COL_CHR);
-	if (S_ISLNK(path->stat->st_mode))
-		ft_putstr(COL_LNK);
-	if (S_ISREG(path->stat->st_mode))
-		ft_putstr(COL_REG);
-	if (S_ISBLK(path->stat->st_mode))
-		ft_putstr(COL_BLK);
-	if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
-		ft_putstr(COL_EXE);
-	ft_putstr(path->name);
-	ft_putstr(COL_CLR);
+	if (isatty(fileno(stdout)))
+	{
+		if (S_ISDIR(path->stat->st_mode))
+			ft_putstr(COL_DIR);
+		if (S_ISCHR(path->stat->st_mode))
+			ft_putstr(COL_CHR);
+		if (S_ISLNK(path->stat->st_mode))
+			ft_putstr(COL_LNK);
+		if (S_ISREG(path->stat->st_mode))
+			ft_putstr(COL_REG);
+		if (S_ISBLK(path->stat->st_mode))
+			ft_putstr(COL_BLK);
+		if (path->stat->st_mode & S_IXUSR && S_ISREG(path->stat->st_mode))
+			ft_putstr(COL_EXE);
+		ft_putstr(path->name);
+		ft_putstr(COL_CLR);
+	}
+	else
+		ft_putstr(path->name);
 }
 
 void	print_path(t_path *p, char *flags, int argc, int *r)
 {
 	get_max_n(p);
-	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l'))
+	if (!ft_strrchr(flags, '1') && !ft_strrchr(flags, 'l')
+		&& isatty(fileno(stdout)))
 		print_column(p, argc, r);
 	else
 	{
